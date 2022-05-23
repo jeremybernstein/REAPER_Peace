@@ -106,7 +106,9 @@ set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set tcp.trackidx.margin [1861 0 0 0 0.5]
 colorsmart              tcp.trackidx.color 230 230 230 0
 
-set tcp.foldercomp      h<47 [0] + inv_m [-2 2 26 16]
+set scalef * 1.05 / h 55
+set scalef scalef>1 1. scalef<0.45 0.45
+set tcp.foldercomp      + inv_m * scalef [-2 2 23 17]
 set tcp.folder          h<36 [0] + fld_m + inv_margin [1 86 30 12 0 1 0 1]
 
 set tcp.meter [396 2 9 96 1 0 1 1]
@@ -331,7 +333,9 @@ set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set tcp.trackidx.margin [1861 0 0 0 0.5]
 colorsmart              tcp.trackidx.color 230 230 230 0
 
-set tcp.foldercomp      h<47 [0] + inv_m [-2 2 26 16]
+set scalef * 1.05 / h 55
+set scalef scalef>1 1. scalef<0.45 0.45
+set tcp.foldercomp      + inv_m * scalef [-2 2 23 17]
 set tcp.folder          h<36 [0] + fld_m + inv_margin [1 86 30 12 0 1 0 1]
 
 set tcp.meter [396 2 9 96 1 0 1 1]
@@ -405,7 +409,9 @@ set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set tcp.trackidx.margin [1861 0 0 0 0.5]
 colorsmart              tcp.trackidx.color 230 230 230 0
 
-set tcp.foldercomp      h<47 [0] + inv_m [-2 2 26 16]
+set scalef * 1.05 / h 55
+set scalef scalef>1 1. scalef<0.45 0.45
+set tcp.foldercomp      + inv_m * scalef [-2 2 23 17]
 set tcp.folder          h<36 [0] + fld_m + inv_margin [1 86 30 12 0 1 0 1]
 
 set tcp.meter [396 2 9 96 1 0 1 1]
