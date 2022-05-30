@@ -1359,12 +1359,12 @@ set master.mcp.size         [125 370 0 286]
 set master.mcp.label                            [3 12 119 25 0 0 0 0]
     set master.mcp.label.color                  [230 230 230]
 
-set mcp_panwid_hgt trackpanmode==6 21 25
+set mcp_panwid_hgt trackpanmode==6 21 26
 set mcp_panwid_wid trackpanmode==6 65 54
 
 set mcp_panwid_xp1 trackpanmode==6 2 7
-set mcp_pan_yp1 trackpanmode==6 49 47
-set mcp_wid_yp1 trackpanmode==6 70 68
+set mcp_pan_yp1 trackpanmode==6 49 46
+set mcp_wid_yp1 trackpanmode==6 70 67
 
 set master.mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set master.mcp.pan.fadermode                  [1]
