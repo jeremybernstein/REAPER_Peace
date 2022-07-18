@@ -143,8 +143,8 @@ set tcp.label h<24 tcp_fxparms=0 w<400 [159 -1 186 23 0 0 1 0] w<450 [181 -1 164
     h<77 showfx{0}==1 [241 28 104 23 0.3 0.5 1 0.5] [159 28 186 23 0 0.5 1 0.5] \
     h<100 showfx{0}==1 [196 13 149 23 0.3 0.35 1 0.35] [114 13 231 23 0 0.35 1 0.35] \
       showfx{0}==1 [196 13 149 23 0.3 0 1 0] [114 13 231 23 0 0 1 0]
-set tcp.label.color [255 255 255 255 255 255 255 255]
-set tcp.label.font [0]
+colorsmart tcp.label.color 255 255 255 1
+set tcp.label.font ?track_selected [0] [1]
 set tcp.label.font tcp_fxparms=0 w<350 [-1]
 set tcp.label.font tcp_fxparms>0 w<500 [-1]
 set tcp.label.margin [2 0 2 1 0.5]
