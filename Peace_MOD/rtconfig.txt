@@ -687,7 +687,7 @@ set envcp.bypass h<48 [388 40 11 21 1 0.5 1 0.5] [388 14 11 21 1 0 1 0]
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [83 370 0 260]
 
 set mcp.label                            [4 12 75 25 0 0 0 0]
@@ -828,7 +828,9 @@ set mcp.recmode                         [56 278 23 18 0 1 0 1]
 set mcp.recmon                          [56 259 23 19 0 1 0 1]
 set mcp.fxin                            [56 238 23 21 0 1 0 1]
 
-set mcp.recinput                       folderstate=1 [6 322 76 18 0 1 0 1] folderstate<0 [1 322 76 18 0 1 0 1] folderdepth>0 [1 322 81 18 0 1 0 1] [6 322 71 18 0 1 0 1]
+set mcp.recinput                        folderstate=1 [6 322 76 18 0 1 0 1] folderstate<0 [1 322 76 18 0 1 0 1] folderdepth>0 [1 322 81 18 0 1 0 1] [6 322 71 18 0 1 0 1]
+
+set mcp.folder                          folderstate<0 [76 362 6 6 0 1 0 1] [78 345 4 18 0 1 0 1]
 
 ; ----------------------------------------------------
 
@@ -957,7 +959,7 @@ Layout "Lba - Standard Sidebar (label bottom)" "label bottom/sidebar"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [83 370 0 260]
 
 set mcp.label                            [-85 341 164 25 0 1 0 1]
@@ -1035,7 +1037,7 @@ set mcp.trackidx                         [31 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
   colorsmart                             mcp.trackidx.color 230 230 230 0
   set mcp.trackidx.font                  [1]
-set mcp.folder                           folderstate<0 [73 359 9 9 0 1 0 1] [160 350 11 18 0 1 0 1]
+set mcp.folder                           folderstate<0 [76 362 6 6 0 1 0 1] [167 345 4 18 0 1 0 1]
 
 make_sidebar2 80 5 34 4 28
 
@@ -1062,7 +1064,7 @@ clear mcp.*
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [54 370 0 260]
 
-set mcp.label                            [3 12 48 25 0 0 0 0]
+set mcp.label                            [4 12 46 25 0 0 0 0]
   set mcp.label.margin                   [2 0 2 0 0.3]
   set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
   set mcp.label.font [10]
@@ -1159,10 +1161,10 @@ Layout "Lca - Small (label bottom)" "label bottom/small"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [54 370 0 260]
 
-set mcp.label                            [3 341 48 25 0 1 0 1]
+set mcp.label                            [4 341 46 25 0 1 0 1]
   set mcp.label.margin                   [2 0 2 0 0.3]
   set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
   set mcp.label.font [10]
@@ -1237,7 +1239,7 @@ set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
   colorsmart                             mcp.trackidx.color 230 230 230 0
   set mcp.trackidx.font                  [1]
-set mcp.folder                           folderstate<0 [44 359 9 9 0 1 0 1] [42 350 11 18 0 1 0 1]
+set mcp.folder                           folderstate<0 [47 362 6 6 0 1 0 1] [49 345 4 18 0 1 0 1]
 
   Layout "Lcb - Small (label bottom + blue fader)" "label bottom/small/blue fader"
     set mcp.label  .
@@ -1360,7 +1362,7 @@ Layout "Lda - Small Sidebar (label bottom)" "label bottom/small sidebar"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [54 370 0 260]
 
 set mcp.label                            [-67 341 117 25 0 1 0 1]
@@ -1437,7 +1439,7 @@ set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
   colorsmart                             mcp.trackidx.color 230 230 230 0
   set mcp.trackidx.font                  [1]
-set mcp.folder                           folderstate<0 [45 360 8 8 0 1 0 1] [113 350 11 18 0 1 0 1]
+set mcp.folder                           folderstate<0 [47 362 6 6 0 1 0 1] [120 345 4 18 0 1 0 1]
 
 make_sidebar2 62 5 34 4 28
 
@@ -1461,10 +1463,10 @@ Layout "ea - Large" "large"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [109 370 0 260]
 
-set mcp.label                            [3 12 103 25 0 0 0 0]
+set mcp.label                            [4 12 101 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
   set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
   set mcp.label.font [10]
@@ -1563,7 +1565,7 @@ clear mcp.*
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [109 370 0 260]
 
-set mcp.label                            [3 341 103 25 0 1 0 1]
+set mcp.label                            [4 341 101 25 0 1 0 1]
   set mcp.label.margin                   [4 0 4 0 0.3]
   set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
   set mcp.label.font [10]
@@ -1637,7 +1639,7 @@ set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
   colorsmart                             mcp.trackidx.color 230 230 230 0
   set mcp.trackidx.font                  [1]
-set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [97 350 11 18 0 1 0 1]
+set mcp.folder                           folderstate<0 [102 362 6 6 0 1 0 1] [104 345 4 18 0 1 0 1]
 
   Layout "Leb - Large (label bottom + blue fader)" "label bottom/large/blue fader"
     set mcp.label  .
@@ -1760,7 +1762,7 @@ Layout "Lfa - Large Sidebar (label bottom)" "label bottom/large sidebar"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [109 370 0 260]
 
 set mcp.label                            [-97 341 202 25 0 1 0 1]
@@ -1837,7 +1839,8 @@ set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
   colorsmart                             mcp.trackidx.color 230 230 230 0
   set mcp.trackidx.font                  [1]
-set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [198 350 11 18 0 1 0 1]
+;set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [198 350 11 18 0 1 0 1]
+set mcp.folder                           folderstate<0 [102 362 6 6 0 1 0 1] [205 345 4 18 0 1 0 1]
 
 make_sidebar2 92 5 34 4 28
 
