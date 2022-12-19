@@ -304,7 +304,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "b - No fader (replaced by meter)" "no fader"
+Layout "b - No fader (replaced by meter)" "tcp no fader"
 
 set tcp.label  .
 
@@ -348,7 +348,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "c - Simple" "simple"
+Layout "c - Simple" "tcp simple"
 
 clear tcp.*
 set tcp.size [406 100 254 0]
@@ -432,7 +432,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "d - Elementary" "simple"
+Layout "d - Elementary" "tcp simple"
 
 clear tcp.*
 set tcp.size [406 100 254 0]
@@ -665,7 +665,6 @@ set envcp.bypass h<48 [388 40 11 21 1 0.5 1 0.5] [388 14 11 21 1 0 1 0]
 
 ; -------------------------- THE MIXER --------------------------
 
-
 clear mcp.*
 
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
@@ -837,7 +836,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "ba - Standard Sidebar" "sidebar"
+Layout "ba - Standard Sidebar" "mcp sidebar"
 
 clear mcp.*
 
@@ -922,15 +921,15 @@ set mcp.folder                           folderstate<0 [73 359 9 9 0 1 0 1] [160
 
 make_sidebar 80 5 45 4 26
 
-  Layout "bb - Standard Sidebar (blue fader)" "sidebar/blue fader"
+  Layout "bb - Standard Sidebar (blue fader)" "mcp sidebar/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "bc - Standard Sidebar (green fader)" "sidebar/green fader"
+  Layout "bc - Standard Sidebar (green fader)" "mcp sidebar/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "bd - Standard Sidebar (red fader)" "sidebar/red fader"
+  Layout "bd - Standard Sidebar (red fader)" "mcp sidebar/red fader"
     set mcp.label  .
   EndLayout
 
@@ -938,7 +937,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "Lba - Standard Sidebar (label bottom)" "sidebar lb"
+Layout "Lba - Standard Sidebar (label bottom)" "mcp sidebar lb"
 
 clear mcp.*
 
@@ -1024,15 +1023,15 @@ set mcp.folder                           folderstate<0 [71 10 11 18 0 0 0 0] [16
 
 make_sidebar2 80 5 34 4 28
 
-  Layout "Lbb - Standard Sidebar (label bottom + blue fader)" "sidebar lb/blue fader"
+  Layout "Lbb - Standard Sidebar (label bottom + blue fader)" "mcp sidebar lb/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lbc - Standard Sidebar (label bottom + green fader)" "sidebar lb/green fader"
+  Layout "Lbc - Standard Sidebar (label bottom + green fader)" "mcp sidebar lb/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lbd - Standard Sidebar (label bottom + red fader)" "sidebar lb/red fader"
+  Layout "Lbd - Standard Sidebar (label bottom + red fader)" "mcp sidebar lb/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1040,7 +1039,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "ca - Small" "small"
+Layout "ca - Small" "mcp small"
 
 clear mcp.*
 
@@ -1124,15 +1123,15 @@ set mcp.trackidx                         [17 351 20 18 0 1 0 1]
   set mcp.trackidx.font                  [1]
 set mcp.folder                           folderstate<0 [44 359 9 9 0 1 0 1] [42 350 11 18 0 1 0 1]
 
-  Layout "cb - Small (blue fader)" "small/blue fader"
+  Layout "cb - Small (blue fader)" "mcp small/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "cc - Small (green fader)" "small/green fader"
+  Layout "cc - Small (green fader)" "mcp small/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "cd - Small (red fader)" "small/red fader"
+  Layout "cd - Small (red fader)" "mcp small/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1140,7 +1139,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "Lca - Small (label bottom)" "small lb"
+Layout "Lca - Small (label bottom)" "mcp small lb"
 
 clear mcp.*
 
@@ -1224,15 +1223,15 @@ set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.font                  [1]
 set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [42 10 11 18 0 0 0 0]
 
-  Layout "Lcb - Small (label bottom + blue fader)" "small lb/blue fader"
+  Layout "Lcb - Small (label bottom + blue fader)" "mcp small lb/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lcc - Small (label bottom + green fader)" "small lb/green fader"
+  Layout "Lcc - Small (label bottom + green fader)" "mcp small lb/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lcd - Small (label bottom + red fader)" "small lb/red fader"
+  Layout "Lcd - Small (label bottom + red fader)" "mcp small lb/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1240,7 +1239,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "da - Small Sidebar" "small sidebar"
+Layout "da - Small Sidebar" "mcp small sidebar"
 
 clear mcp.*
 
@@ -1325,15 +1324,15 @@ set mcp.folder                           folderstate<0 [45 360 8 8 0 1 0 1] [113
 
 make_sidebar 62 5 45 4 26
 
-  Layout "db - Small Sidebar (blue fader)" "small sidebar/blue fader"
+  Layout "db - Small Sidebar (blue fader)" "mcp small sidebar/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "dc - Small Sidebar (green fader)" "small sidebar/green fader"
+  Layout "dc - Small Sidebar (green fader)" "mcp small sidebar/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "dd - Small Sidebar (red fader)" "small sidebar/red fader"
+  Layout "dd - Small Sidebar (red fader)" "mcp small sidebar/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1341,7 +1340,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "Lda - Small Sidebar (label bottom)" "small sidebar lb"
+Layout "Lda - Small Sidebar (label bottom)" "mcp small sidebar lb"
 
 clear mcp.*
 
@@ -1426,15 +1425,15 @@ set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [11
 
 make_sidebar2 62 5 34 4 28
 
-  Layout "Ldb - Small Sidebar (label bottom + blue fader)" "small sidebar lb/blue fader"
+  Layout "Ldb - Small Sidebar (label bottom + blue fader)" "mcp small sidebar lb/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Ldc - Small Sidebar (label bottom + green fader)" "small sidebar lb/green fader"
+  Layout "Ldc - Small Sidebar (label bottom + green fader)" "mcp small sidebar lb/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Ldd - Small Sidebar (label bottom + red fader)" "small sidebar lb/red fader"
+  Layout "Ldd - Small Sidebar (label bottom + red fader)" "mcp small sidebar lb/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1442,7 +1441,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "ea - Large" "large"
+Layout "ea - Large" "mcp large"
 
 clear mcp.*
 
@@ -1525,15 +1524,15 @@ set mcp.trackidx                         [44 351 20 18 0 1 0 1]
   set mcp.trackidx.font                  [1]
 set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [97 350 11 18 0 1 0 1]
 
-  Layout "eb - Large (blue fader)" "large/blue fader"
+  Layout "eb - Large (blue fader)" "mcp large/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "ec - Large (green fader)" "large/green fader"
+  Layout "ec - Large (green fader)" "mcp large/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "ed - Large (red fader)" "large/red fader"
+  Layout "ed - Large (red fader)" "mcp large/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1541,7 +1540,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "Lea - Large (label bottom)" "large lb"
+Layout "Lea - Large (label bottom)" "mcp large lb"
 
 clear mcp.*
 
@@ -1624,15 +1623,15 @@ set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.font                  [1]
 set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [97 10 11 18 0 0 0 0]
 
-  Layout "Leb - Large (label bottom + blue fader)" "large lb/blue fader"
+  Layout "Leb - Large (label bottom + blue fader)" "mcp large lb/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lec - Large (label bottom + green fader)" "large lb/green fader"
+  Layout "Lec - Large (label bottom + green fader)" "mcp large lb/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Led - Large (label bottom + red fader)" "large lb/red fader"
+  Layout "Led - Large (label bottom + red fader)" "mcp large lb/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1640,7 +1639,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "fa - Large Sidebar" "large sidebar"
+Layout "fa - Large Sidebar" "mcp large sidebar"
 
 clear mcp.*
 
@@ -1725,15 +1724,15 @@ set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [198
 
 make_sidebar 92 5 45 4 26
 
-  Layout "fb - Large Sidebar (blue fader)" "large sidebar/blue fader"
+  Layout "fb - Large Sidebar (blue fader)" "mcp large sidebar/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "fc - Large Sidebar (green fader)" "large sidebar/green fader"
+  Layout "fc - Large Sidebar (green fader)" "mcp large sidebar/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "fd - Large Sidebar (red fader)" "large sidebar/red fader"
+  Layout "fd - Large Sidebar (red fader)" "mcp large sidebar/red fader"
     set mcp.label  .
   EndLayout
 
@@ -1741,7 +1740,7 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "Lfa - Large Sidebar (label bottom)" "large sidebar lb"
+Layout "Lfa - Large Sidebar (label bottom)" "mcp large sidebar lb"
 
 clear mcp.*
 
@@ -1826,15 +1825,15 @@ set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [19
 
 make_sidebar2 92 5 34 4 28
 
-  Layout "Lfb - Large Sidebar (label bottom + blue fader)" "large sidebar lb/blue fader"
+  Layout "Lfb - Large Sidebar (label bottom + blue fader)" "mcp large sidebar lb/blue fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lfc - Large Sidebar (label bottom + green fader)" "large sidebar lb/green fader"
+  Layout "Lfc - Large Sidebar (label bottom + green fader)" "mcp large sidebar lb/green fader"
     set mcp.label  .
   EndLayout
 
-  Layout "Lfd - Large Sidebar (label bottom + red fader)" "large sidebar lb/red fader"
+  Layout "Lfd - Large Sidebar (label bottom + red fader)" "mcp large sidebar lb/red fader"
     set mcp.label  .
   EndLayout
 
