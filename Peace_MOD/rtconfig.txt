@@ -28,7 +28,11 @@ tcp_voltext_flags 12
 ;peaksedges 0
 tcp_heights 4 21 51 80   ; supercollapsed, collapsed, small(norecarm), recarm size
 tcp_folderindent 14
-  
+
+define_parameter Peace_MOD 'Peace_MOD' 1
+define_parameter tcp_red_label 'TCP Red Label when Record-Enabled' 0 0 1
+define_parameter mcp_red_label 'MCP Red Label when Record-Enabled' 0 0 1
+
 ; -------------------------- WALTER --------------------------
 ; font #1 - MCP Track Numbers
 ; font #2 - Extended Mixer
@@ -50,9 +54,14 @@ endmacro
 ; multiplying the trackcolor * 0.313 (the label background on the TCP) means a low luma
 ; as such luma will never be > 140, so we can just remove all of that calculation
 macro colorsmart_label element r g b rec_red      ; element name, desired rgb, go red on recarm? ('1' yes, '0' no)
-  set element                  ?trackcolor_valid [255 255 255] [r g b]
-  set redness                  / [trackcolor_r] * [0.5] + + [0.1] [trackcolor_g] [trackcolor_b]
+  set element                  [r g b] ;?rec_red ?trackcolor_valid [255 255 255] [r g b] [r g b]
+  set redness                  ?rec_red / [trackcolor_r] * [0.5] + + [0.1] [trackcolor_g] [trackcolor_b] .
   set element                  ?rec_red ?recarm redness{x}>2.5 [255 150 150] [255 100 100] . .
+endmacro
+
+macro colorsmart_mcp_index element r g b
+  set luma                     + + * 0.299 [trackcolor_r] * 0.587 [trackcolor_g] * 0.114 [trackcolor_b]
+  set element                  ?track_selected ?trackcolor_valid luma{x}>140 [0 0 0] [255 255 255] [r g b] [r g b]
 endmacro
 
  macro make_sidebar sbar_w lp tp rp bp  ; make a sidebar of defined width, with padding (left top right bottom)
@@ -82,6 +91,11 @@ endmacro
   set mcp.extmixer.position    - - [lp tp sbar_w h] [0 0 0 mcp.trackidx{h}] + [0 0 0 bp] [0 0 0 tp]
   set mcp.trackidx             + * [w_plus_pads] [0.5]
   set mcp.folder               folderstate<0 + [w_plus_pads] . .
+endmacro
+
+ macro make_sidebar2 sbar_w lp tp rp bp  ; make a sidebar of defined width, with padding (left top right bottom)
+  make_sidebar sbar_w lp tp rp bp
+  set mcp.extmixer.position    - - [lp tp sbar_w h] [0 0 0 mcp.label{h}] + [0 0 0 bp] [0 0 0 tp]
 endmacro
 
 ; ----------------------------------------------------
@@ -153,7 +167,9 @@ set tcp.label h<24 showfx{0}==1 w<325 [159 -1 186 23 0 0 1 0] w<450 [242 -1 103 
     h<77 showfx{0}==1 [241 28 104 23 0.3 0.5 1 0.5] [159 28 186 23 0 0.5 1 0.5] \
     h<100 showfx{0}==1 [196 13 149 23 0.3 0.35 1 0.35] [114 13 231 23 0 0.35 1 0.35] \
       showfx{0}==1 [196 13 149 23 0.3 0 1 0] [114 13 231 23 0 0 1 0]
-set tcp.label.color [255 255 255 255 255 255 255 255]
+
+colorsmart_label tcp.label.color 255 255 255 tcp_red_label
+
 set tcp.label.font [0]
 set tcp.label.font showfx{0}==0 w<350 [-1]
 set tcp.label.font showfx{0}==1 w<500 [-1]
@@ -270,20 +286,8 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "aa1 - Standard Red Label"
-  colorsmart_label tcp.label.color 255 255 255 1
-EndLayout
-
-; ----------------------------------------------------
-
 Layout "ab - Standard (blue fader)" "blue fader"
   set tcp.label  .
-EndLayout
-
-; ----------------------------------------------------
-
-Layout "ab1 - Standard Red Label (blue fader)" "blue fader"
-  colorsmart_label tcp.label.color 255 255 255 1
 EndLayout
 
 ; ----------------------------------------------------
@@ -294,20 +298,8 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "ac1 - Standard Red Label (green fader)" "green fader"
-  colorsmart_label tcp.label.color 255 255 255 1
-EndLayout
-
-; ----------------------------------------------------
-
 Layout "ad - Standard (red fader)" "red fader"
   set tcp.label  .
-EndLayout
-
-; ----------------------------------------------------
-
-Layout "ad1 - Standard Red Label (red fader)" "red fader"
-  colorsmart_label tcp.label.color 255 255 255 1
 EndLayout
 
 ; ----------------------------------------------------
@@ -352,10 +344,6 @@ set tcp.volume.label.color [127 153 179]
 set tcp.volume.label.font [16]
 set tcp.volume.label.margin h<47 [1 1 0 0 0.5] [1 1 7 0 1]
 
-    Layout "b1 - No fader Red Label (replaced by meter)" "no fader"
-      colorsmart_label tcp.label.color 255 255 255 1
-    EndLayout
-
 EndLayout
 
 ; ----------------------------------------------------
@@ -399,7 +387,9 @@ set tcp.fxbyp h<24 [98 -1 13 23 0 0 0 0] \
 
 set tcp.label h<24 w<375 [135 -1 210 23 0 0 1 0] [213 -1 132 23 0 0 1 0] \
     h<47 w<375 [135 38 210 23 0 0.5 1 0.5] [213 38 132 23 0 0.5 1 0.5] w<375 [135 13 210 23 0 0 1 0] [213 13 132 23 0 0 1 0]
-set tcp.label.color [255 255 255 255 255 255 255 255 ]
+
+colorsmart_label tcp.label.color 255 255 255 tcp_red_label
+
 set tcp.label.font [0]
 set tcp.label.margin [3 0 2 1 0.5]
 
@@ -437,10 +427,6 @@ set tcp.io h<24 w<375 [0] [179 -1 31 23 0 0 0 0] \
 
 set tcp.recarm h<24 [114 -1 23 23 0 0 0 0] \
     h<47 [114 38 23 23 0 0.5 0 0.5] [114 13 23 23 0 0 0 0]
-
-    Layout "c1 - Simple Red Label" "simple"
-      colorsmart_label tcp.label.color 255 255 255 1
-    EndLayout
 
 EndLayout
 
@@ -488,7 +474,9 @@ set tcp.volume.label.margin [1 1 0 0 0.5]
 
 set tcp.label h<24 [79 -1 266 23 0 0 1 0] \
     h<47 [79 38 266 23 0 0.5 1 0.5] [79 13 266 23 0 0 1 0]
-set tcp.label.color [255 255 255 255 255 255 255 255 ]
+
+colorsmart_label tcp.label.color 255 255 255 tcp_red_label
+
 set tcp.label.font [0]
 set tcp.label.margin [5 0 4 1 0.5]
 
@@ -496,10 +484,6 @@ set tcp.mute h<24 [345 -1 23 23 1 0 1 0] \
     h<47 [345 38 23 23 1 0.5 1 0.5] [345 13 23 23 1 0 1 0]
 set tcp.solo h<24 [368 -1 22 23 1 0 1 0] \
     h<47 [368 38 22 23 1 0.5 1 0.5] [368 13 22 23 1 0 1 0]
-
-    Layout "d1 - Elementary Red Label" "simple"
-      colorsmart_label tcp.label.color 255 255 255 1
-    EndLayout
 
 EndLayout
 
@@ -563,7 +547,9 @@ set master.tcp.label h<24 showfx{0}==1 [196 -1 149 23 0.3 0 1 0] [114 -1 231 23 
     h<77 showfx{0}==1 [196 28 149 23 0.3 0.5 1 0.5] [114 28 231 23 0 0.5 1 0.5] \
     h<100 showfx{0}==1 [196 13 149 23 0.3 0.35 1 0.35] [114 13 231 23 0 0.35 1 0.35] \
       showfx{0}==1 [196 13 149 23 0.3 0 1 0] [114 13 231 23 0 0 1 0]
-set master.tcp.label.color [255 255 255 255 255 255 255 255 ]
+
+colorsmart_label mcp.tcp.label.color 255 255 255 tcp_red_label
+
 set master.tcp.label.font [0]
 set master.tcp.label.margin [2 0 2 1 0.5]
 
@@ -680,31 +666,22 @@ set envcp.bypass h<48 [388 40 11 21 1 0.5 1 0.5] [388 14 11 21 1 0 1 0]
 ; -------------------------- THE MIXER --------------------------
 
 
-  ; --------------- User adjustable values. Edit without fear. -----------------
-
-  set hide_input               [200] ; height below which input dropdown is hidden.
-  set hide_pan_labels          [200] ; height below which pan labels are hidden.
-  set hide_volume_label        [100] ; meter area height below which volume label is hidden.
-
-  ; ------- End of user adjustable values. From here on may be dragons. ---------
-
-
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
-set mcp.size                             [83 370 0 286]
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+set mcp.size                             [83 370 0 260]
 
-set mcp.label                            [3 12 77 25 0 0 0 0]
+set mcp.label                            [4 12 75 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
-  set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
   set mcp.label.font [10]
 
-set mcp.fx                              [49 43 17 22 0 0 0 0]
-set mcp.fxbyp                           [66 43 13 22 0 0 0 0]
+set mcp.fx                               [49 43 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
-set mcp.volume.label                    [4 119 49 20 0 0 0 0]
-  set mcp.volume                        [4 139 49 189 0 0 0 1]
-  set mcp.volume.label.color            [127 153 179]
+set mcp.volume.label                     [4 119 49 20 0 0 0 0]
+  set mcp.volume                         [4 139 49 189 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -721,20 +698,20 @@ set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_p
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                           [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set mcp.width.fadermode                [1]
-  set mcp.width.color                   [230 230 230]
-  set mcp.width.label                   [4 65 45 21 0 0 0 0]
-  set mcp.width.label.color             [230 230 230]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 65 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
   set mcp.width.label.margin             [0 -7 0 0 0.5]
 
 set mcp.io                               [49 65 30 21 0 0 0 0]
 
-set mcp.phase                           [4 89 23 23 0 0 0 0]
+set mcp.phase                            [4 89 23 23 0 0 0 0]
 
-set mcp.env                             [25 89 54 23 0 0 0 0]
+set mcp.env                              [25 89 54 23 0 0 0 0]
 
-set mcp.meter                           [6 139 26 186 0 0 0 1] ; TODO clipping
+set mcp.meter                            [6 139 26 186 0 0 0 1] ; TODO clipping
   set mcp.meter.vu.div                   [1 1]
   set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
@@ -742,28 +719,21 @@ set mcp.meter                           [6 139 26 186 0 0 0 1] ; TODO clipping
   set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
 
-set mcp.mute                            [56 119 23 22 0 0 0 0]
-set mcp.solo                           [56 141 23 21 0 0 0 0]
+set mcp.mute                             [56 119 23 22 0 0 0 0]
+set mcp.solo                             [56 141 23 21 0 0 0 0]
 
 set mcp.recarm                           [56 306 23 22 0 1 0 1]
 
 set mcp.recmode                          [56 289 23 18 0 1 0 1]
 
-set mcp.recmon                          [56 270 23 19 0 1 0 1]
+set mcp.recmon                           [56 270 23 19 0 1 0 1]
 
-set mcp.fxin                           [56 249 23 21 0 1 0 1]
+set mcp.fxin                             [56 249 23 21 0 1 0 1]
 
-set mcp.recinput                       folderstate=1 [6 333 76 18 0 1 0 1] folderstate<0 [1 333 76 18 0 1 0 1] folderdepth>0 [1 333 81 18 0 1 0 1] [6 333 71 18 0 1 0 1]
-  set mcp.recinput.color                [184 184 184]
-  set mcp.recinput.margin               [2 2 2 2 0.5]
-  set mcp.recinput.font                 [2 16]
-
-;set l_sec                                + mcp.pan.label{h}>0 [0 13] [0 0 0 13] \
-                                         + +:-1:1 [0 0 0 137] [0 97 0 h] \
-                                         +:-1:1 [0 0 0 mcp.recinput{h}] [0 mcp.recinput{h}]
-
-;set mcp.recmon                           l_sec{h}<162 [0] [60 259 17 23 0 1 0 1]
-
+set mcp.recinput                         folderstate=1 [6 333 76 18 0 1 0 1] folderstate<0 [1 333 76 18 0 1 0 1] folderdepth>0 [1 333 81 18 0 1 0 1] [6 333 71 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
+  set mcp.recinput.margin                [2 2 2 2 0.5]
+  set mcp.recinput.font                  [2 16]
 
 set mcp.extmixer.mode                    [0]
     set mcp.fxlist.font                  [2 16]
@@ -805,24 +775,86 @@ EndLayout
 
 ; ----------------------------------------------------
 
+Layout "Laa - Standard (label bottom)" "mcp lb"
+
+set mcp.label                           [4 341 75 25 0 1 0 1] ;folderstate<0 [3 342 76 21 0 1 0 1] [3 342 77 21 0 1 0 1]
+
+set mcp.fx                              [49 32 17 22 0 0 0 0]
+set mcp.fxbyp                           [66 32 13 22 0 0 0 0]
+
+set mcp.volume.label                    [4 108 49 20 0 0 0 0]
+set mcp.volume                          [4 128 49 189 0 0 0 1]
+
+set mcp_pan_yp1 trackpanmode==6 51 38
+set mcp_wid_yp1 trackpanmode==6 71 58
+
+set mcp.pan                             [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan.label                       [4 32 45 22 0 0 0 0]
+
+set mcp.width                           [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width.label                     [4 54 45 21 0 0 0 0]
+
+set mcp.io                              [49 54 30 21 0 0 0 0]
+
+set mcp.phase                           [4 78 23 23 0 0 0 0]
+set mcp.env                             [25 78 54 23 0 0 0 0]
+
+set mcp.meter                           [6 128 26 186 0 0 0 1] ; TODO clipping
+
+set mcp.mute                            [56 108 23 22 0 0 0 0]
+set mcp.solo                            [56 130 23 21 0 0 0 0]
+set mcp.recarm                          [56 295 23 22 0 1 0 1]
+set mcp.recmode                         [56 278 23 18 0 1 0 1]
+set mcp.recmon                          [56 259 23 19 0 1 0 1]
+set mcp.fxin                            [56 238 23 21 0 1 0 1]
+
+set mcp.recinput                        folderstate=1 [6 322 76 18 0 1 0 1] folderstate<0 [1 322 76 18 0 1 0 1] folderdepth>0 [1 322 81 18 0 1 0 1] [6 322 71 18 0 1 0 1]
+
+set mcp.trackidx                        [31 12 20 18 0 0 0 0]
+colorsmart_mcp_index                    mcp.trackidx.color 230 230 230
+
+set mcp.folder                          folderstate<0 [71 10 11 18 0 0 0 0] [71 10 11 18 0 0 0 0]
+
+; ----------------------------------------------------
+
+Layout "Lab - Standard (label bottom + blue fader)" "mcp lb/blue fader"
+set mcp.label  .
+EndLayout
+
+; ----------------------------------------------------
+
+Layout "Lac - Standard (label bottom + green fader)" "mcp lb/green fader"
+set mcp.label  .
+EndLayout
+
+; ----------------------------------------------------
+
+Layout "Lad - Standard (label bottom + red fader)" "mcp lb/red fader"
+set mcp.label  .
+EndLayout
+
+EndLayout
+
+; ----------------------------------------------------
+
 Layout "ba - Standard Sidebar" "sidebar"
 
 clear mcp.*
 
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
-set mcp.size                             [83 370 0 286]
+set mcp.size                             [83 370 0 260]
 
 set mcp.label                            [-85 12 164 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
-  set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
   set mcp.label.font [10]
 
-set mcp.fx                              [49 43 17 22 0 0 0 0]
-set mcp.fxbyp                           [66 43 13 22 0 0 0 0]
+set mcp.fx                               [49 43 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
-set mcp.volume.label                    [4 119 49 20 0 0 0 0]
-  set mcp.volume                        [4 139 49 189 0 0 0 1]
-  set mcp.volume.label.color            [127 153 179]
+set mcp.volume.label                     [4 119 49 20 0 0 0 0]
+  set mcp.volume                         [4 139 49 189 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -839,20 +871,20 @@ set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_p
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                           [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set mcp.width.fadermode                [1]
-  set mcp.width.color                   [230 230 230]
-  set mcp.width.label                   [4 65 45 21 0 0 0 0]
-  set mcp.width.label.color             [230 230 230]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 65 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
   set mcp.width.label.margin             [0 -7 0 0 0.5]
 
 set mcp.io                               [49 65 30 21 0 0 0 0]
 
-set mcp.phase                           [4 89 23 23 0 0 0 0]
+set mcp.phase                            [4 89 23 23 0 0 0 0]
 
-set mcp.env                             [25 89 54 23 0 0 0 0]
+set mcp.env                              [25 89 54 23 0 0 0 0]
 
-set mcp.meter                           [7 139 26 186 0 0 0 1]
+set mcp.meter                            [7 139 26 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
   set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
@@ -860,26 +892,20 @@ set mcp.meter                           [7 139 26 186 0 0 0 1]
   set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
 
-set mcp.mute                            [56 119 23 22 0 0 0 0]
-set mcp.solo                           [56 141 23 21 0 0 0 0]
+set mcp.mute                             [56 119 23 22 0 0 0 0]
+set mcp.solo                             [56 141 23 21 0 0 0 0]
 
 set mcp.recarm                           [56 306 23 22 0 1 0 1]
 
 set mcp.recmode                          [56 289 23 18 0 1 0 1]
 
-set mcp.recmon                          [56 270 23 19 0 1 0 1]
+set mcp.recmon                           [56 270 23 19 0 1 0 1]
 
-set mcp.fxin                           [56 249 23 21 0 1 0 1]
+set mcp.fxin                             [56 249 23 21 0 1 0 1]
 
-set mcp.recinput                      folderstate=1 [-83 333 165 18 0 1 0 1] folderstate<0 [-88 333 165 18 0 1 0 1] [-88 333 170 18 0 1 0 1]
-  set mcp.recinput.color                [184 184 184]
+set mcp.recinput                         folderstate=1 [-84 333 166 18 0 1 0 1] folderstate<0 [-88 333 165 18 0 1 0 1] [-88 333 170 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
   set mcp.recinput.margin                [2 0 2 3 0.5]
-
-;set l_sec                                + mcp.pan.label{h}>0 [0 13] [0 0 0 13] \
-                                         + +:-1:1 [0 0 0 137] [0 97 0 h] \
-                                         +:-1:1 [0 0 0 mcp.recinput{h}] [0 mcp.recinput{h}]
-
-;set mcp.recmon                           l_sec{h}<162 [0] [60 259 17 23 0 1 0 1]
 
 set mcp.extmixer.mode                    [0]
     set mcp.fxlist.font                  [2 16]
@@ -893,7 +919,6 @@ set mcp.trackidx                         [31 351 20 18 0 1 0 1]
   colorsmart                             mcp.trackidx.color 230 230 230 0
   set mcp.trackidx.font                  [1]
 set mcp.folder                           folderstate<0 [73 359 9 9 0 1 0 1] [160 350 11 18 0 1 0 1]
-
 
 make_sidebar 80 5 45 4 26
 
@@ -911,38 +936,131 @@ make_sidebar 80 5 45 4 26
 
 EndLayout
 
+; ----------------------------------------------------
+
+Layout "Lba - Standard Sidebar (label bottom)" "sidebar lb"
+
+clear mcp.*
+
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+set mcp.size                             [83 370 0 260]
+
+set mcp.label                            [-85 341 164 25 0 1 0 1]
+  set mcp.label.margin                   [4 0 4 0 0.3]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
+  set mcp.label.font [10]
+
+set mcp.fx                               [49 32 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 32 13 22 0 0 0 0]
+
+set mcp.volume.label                     [4 108 49 20 0 0 0 0]
+set mcp.volume                           [4 128 49 189 0 0 0 1]
+set mcp.volume.label.color               [127 153 179]
+  set mcp.volume.label.margin            [0 4 0 0 0.5]
+
+set mcp_panwid_hgt trackpanmode==6 17 21
+set mcp_panwid_wid trackpanmode==6 46 39
+
+set mcp_panwid_xp1 trackpanmode==6 3 7
+set mcp_pan_yp1 trackpanmode==6 51 38
+set mcp_wid_yp1 trackpanmode==6 71 58
+
+set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.pan.fadermode                  [1]
+  set mcp.pan.color                      gl_pan_color
+  set mcp.pan.label                      [4 32 45 22 0 0 0 0]
+  set mcp.pan.label.color                [230 230 230]
+  set mcp.pan.label.margin               [0 -7 0 0 0.5]
+
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.width.fadermode                [1]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 54 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
+  set mcp.width.label.margin             [0 -7 0 0 0.5]
+
+set mcp.io                               [49 54 30 21 0 0 0 0]
+
+set mcp.phase                            [4 78 23 23 0 0 0 0]
+
+set mcp.env                              [25 78 54 23 0 0 0 0]
+
+set mcp.meter                            [7 128 26 186 0 0 0 1]
+  set mcp.meter.vu.div                   [1 1]
+  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+
+set mcp.mute                             [56 108 23 22 0 0 0 0]
+set mcp.solo                             [56 130 23 21 0 0 0 0]
+
+set mcp.recarm                           [56 295 23 22 0 1 0 1]
+
+set mcp.recmode                          [56 278 23 18 0 1 0 1]
+
+set mcp.recmon                           [56 259 23 19 0 1 0 1]
+
+set mcp.fxin                             [56 238 23 21 0 1 0 1]
+
+set mcp.recinput                         folderstate=1 [-83 322 165 18 0 1 0 1] folderstate<0 [-88 322 165 18 0 1 0 1] [-88 322 170 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
+  set mcp.recinput.margin                [2 0 2 3 0.5]
+
+set mcp.extmixer.mode                    [0]
+    set mcp.fxlist.font                  [2 16]
+    set mcp.fxlist.margin                [4 0 4 0 0.5]
+    set mcp.sendlist.font                [2 16]
+    set mcp.sendlist.margin              [4 0 4 0 0]
+    set mcp.fxparm.font                  [2 28]
+    set mcp.fxparm.margin                [2 0 4 0 0]
+
+set mcp.trackidx                         [31 13 20 18 0 0 0 0]
+  set mcp.trackidx.margin                [0 0 0 3 0.5]
+  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
+  set mcp.trackidx.font                  [1]
+set mcp.folder                           folderstate<0 [71 10 11 18 0 0 0 0] [160 10 11 18 0 0 0 0]
+
+make_sidebar2 80 5 34 4 28
+
+  Layout "Lbb - Standard Sidebar (label bottom + blue fader)" "sidebar lb/blue fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lbc - Standard Sidebar (label bottom + green fader)" "sidebar lb/green fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lbd - Standard Sidebar (label bottom + red fader)" "sidebar lb/red fader"
+    set mcp.label  .
+  EndLayout
+
+EndLayout
 
 ; ----------------------------------------------------
 
 Layout "ca - Small" "small"
 
- ; --------------- User adjustable values. Edit without fear. -----------------
-
-  set hide_input               [200] ; height below which input dropdown is hidden.
-  set hide_pan_labels          [200] ; height below which pan labels are hidden.
-  set hide_volume_label        [500] ; meter area height below which volume label is hidden.
-
-  ; ------- End of user adjustable values. From here on may be dragons. ---------
-
 clear mcp.*
 
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
-set mcp.size                             [54 370 0 286]
+set mcp.size                             [54 370 0 260]
 
-set mcp.label                            [3 12 48 25 0 0 0 0]
+set mcp.label                            [4 12 46 25 0 0 0 0]
   set mcp.label.margin                   [2 0 2 0 0.3]
-  set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
   set mcp.label.font [10]
 
-set mcp.mute                            [4 43 24 23 0 0 0 0]
-set mcp.solo                           [28 43 22 23 0 0 0 0]
+set mcp.mute                             [4 43 24 23 0 0 0 0]
+set mcp.solo                             [28 43 22 23 0 0 0 0]
 
-set mcp.fxbyp                           [4 115 24 12 0 0 0 0]
-set mcp.fx                              [4 127 24 20 0 0 0 0]
+set mcp.fxbyp                            [4 115 24 12 0 0 0 0]
+set mcp.fx                               [4 127 24 20 0 0 0 0]
 
-set mcp.volume.label                    [4 180 46 20 0 0 0 0]
-  set mcp.volume                        h<350 [4 200 46 145 0 0 0 1] [4 200 46 84 0 0 0 1]
-  set mcp.volume.label.color            [127 153 179]
+set mcp.volume.label                     [4 180 46 20 0 0 0 0]
+  set mcp.volume                         h<350 [4 200 46 145 0 0 0 1] [4 200 46 84 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -961,18 +1079,18 @@ set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_p
 
 set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set mcp.width.fadermode                [1]
-  set mcp.width.color                   [230 230 230]
-  set mcp.width.label                   [4 91 46 21 0 0 0 0]
-  set mcp.width.label.color             [230 230 230]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 91 46 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
   set mcp.width.label.margin             [0 -7 0 0 0.5]
 
 set mcp.io                               [28 115 22 32 0 0 0 0]
 
-set mcp.phase                           [4 150 24 23 0 0 0 0]
+set mcp.phase                            [4 150 24 23 0 0 0 0]
 
-set mcp.env                             [28 150 22 23 0 0 0 0]
+set mcp.env                              [28 150 22 23 0 0 0 0]
 
-set mcp.meter                           h<350 [6 199 25 144 0 0 0 1] [6 200 25 82 0 0 0 1]
+set mcp.meter                            h<350 [6 199 25 144 0 0 0 1] [6 200 25 82 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
   set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
@@ -981,26 +1099,17 @@ set mcp.meter                           h<350 [6 199 25 144 0 0 0 1] [6 200 25 8
   set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
 
 
-set mcp.recarm                          h<350 [0] [27 308 23 20 0 1 0 1]
+set mcp.recarm                           h<350 [0] [27 308 23 20 0 1 0 1]
 
-set mcp.recmode                         h<350 [0] [27 287 23 21 0 1 0 1]
+set mcp.recmode                          h<350 [0] [27 287 23 21 0 1 0 1]
 
-set mcp.recmon                         h<350 [0] [4 308 23 20 0 1 0 1]
+set mcp.recmon                           h<350 [0] [4 308 23 20 0 1 0 1]
 
-set mcp.fxin                           h<350 [0] [4 287 23 21 0 1 0 1]
+set mcp.fxin                             h<350 [0] [4 287 23 21 0 1 0 1]
 
-set mcp.recinput                       h<350 [0] [1 330 52 21 0 1 0 1]
-  set mcp.recinput.color                [184 184 184]
+set mcp.recinput                         h<350 [0] [1 330 52 21 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
   set mcp.recinput.margin                [2 1 2 1 0.5]
-
-
-
-;set l_sec                                + mcp.pan.label{h}>0 [0 13] [0 0 0 13] \
-                                         + +:-1:1 [0 0 0 137] [0 97 0 h] \
-                                         +:-1:1 [0 0 0 mcp.recinput{h}] [0 mcp.recinput{h}]
-
-;set mcp.recmon                           l_sec{h}<162 [0] [60 259 17 23 0 1 0 1]
-
 
 set mcp.extmixer.mode                    [0]
     set mcp.fxlist.font                  [2 16]
@@ -1031,36 +1140,127 @@ EndLayout
 
 ; ----------------------------------------------------
 
+Layout "Lca - Small (label bottom)" "small lb"
+
+clear mcp.*
+
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+set mcp.size                             [54 370 0 260]
+
+set mcp.label                            [4 341 46 25 0 1 0 1]
+  set mcp.label.margin                   [2 0 2 0 0.3]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
+  set mcp.label.font [10]
+
+set mcp.mute                             [4 32 24 23 0 0 0 0]
+set mcp.solo                             [28 32 22 23 0 0 0 0]
+
+set mcp.fxbyp                            [4 104 24 12 0 0 0 0]
+set mcp.fx                               [4 116 24 20 0 0 0 0]
+
+set mcp.volume.label                     [4 169 46 20 0 0 0 0]
+  set mcp.volume                         h<350 [4 189 46 145 0 0 0 1] [4 189 46 84 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.margin            [0 4 0 0 0.5]
+
+set mcp_panwid_hgt trackpanmode==6 17 21
+set mcp_panwid_wid trackpanmode==6 46 39
+
+set mcp_panwid_xp1 trackpanmode==6 3 7
+set mcp_pan_yp1 trackpanmode==6 77 64
+set mcp_wid_yp1 trackpanmode==6 98 85
+
+set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.pan.fadermode                  [1]
+  set mcp.pan.color                      gl_pan_color
+  set mcp.pan.label                      [4 58 46 22 0 0 0 0]
+  set mcp.pan.label.color                [230 230 230]
+  set mcp.pan.label.margin               [0 -7 0 0 0.5]
+
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.width.fadermode                [1]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 80 46 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
+  set mcp.width.label.margin             [0 -7 0 0 0.5]
+
+set mcp.io                               [28 104 22 32 0 0 0 0]
+
+set mcp.phase                            [4 139 24 23 0 0 0 0]
+
+set mcp.env                              [28 139 22 23 0 0 0 0]
+
+set mcp.meter                            h<350 [6 188 25 144 0 0 0 1] [6 189 25 82 0 0 0 1]
+  set mcp.meter.vu.div                   [1 1]
+  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+
+
+set mcp.recarm                           h<350 [0] [27 297 23 20 0 1 0 1]
+
+set mcp.recmode                          h<350 [0] [27 276 23 21 0 1 0 1]
+
+set mcp.recmon                           h<350 [0] [4 297 23 20 0 1 0 1]
+
+set mcp.fxin                             h<350 [0] [4 276 23 21 0 1 0 1]
+
+set mcp.recinput                         h<350 [0] [1 319 52 21 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
+  set mcp.recinput.margin                [2 1 2 1 0.5]
+
+set mcp.extmixer.mode                    [0]
+    set mcp.fxlist.font                  [2 16]
+    set mcp.fxlist.margin                [4 0 4 0 0.5]
+    set mcp.sendlist.font                [2 16]
+    set mcp.sendlist.margin              [4 0 4 0 0]
+    set mcp.fxparm.font                  [2 28]
+    set mcp.fxparm.margin                [2 0 4 0 0]
+set mcp.trackidx                         [17 13 20 18 0 0 0 0]
+  set mcp.trackidx.margin                [0 0 0 3 0.5]
+  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
+  set mcp.trackidx.font                  [1]
+set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [42 10 11 18 0 0 0 0]
+
+  Layout "Lcb - Small (label bottom + blue fader)" "small lb/blue fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lcc - Small (label bottom + green fader)" "small lb/green fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lcd - Small (label bottom + red fader)" "small lb/red fader"
+    set mcp.label  .
+  EndLayout
+
+EndLayout
+
+; ----------------------------------------------------
+
 Layout "da - Small Sidebar" "small sidebar"
-
- ; --------------- User adjustable values. Edit without fear. -----------------
-
-  set hide_input               [200] ; height below which input dropdown is hidden.
-  set hide_pan_labels          [200] ; height below which pan labels are hidden.
-  set hide_volume_label        [500] ; meter area height below which volume label is hidden.
-
-  ; ------- End of user adjustable values. From here on may be dragons. ---------
-
 
 clear mcp.*
 
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
-set mcp.size                             [54 370 0 298]
+set mcp.size                             [54 370 0 260]
 
-set mcp.label                            [-68 12 118 25 0 0 0 0]
+set mcp.label                            [-67 12 117 25 0 0 0 0]
   set mcp.label.margin                   [2 0 2 0 0.3]
-  set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
   set mcp.label.font [10]
 
-set mcp.mute                            [4 43 24 23 0 0 0 0]
-set mcp.solo                           [28 43 22 23 0 0 0 0]
+set mcp.mute                             [4 43 24 23 0 0 0 0]
+set mcp.solo                             [28 43 22 23 0 0 0 0]
 
-set mcp.fxbyp                           [4 115 24 12 0 0 0 0]
-set mcp.fx                              [4 127 24 20 0 0 0 0]
+set mcp.fxbyp                            [4 115 24 12 0 0 0 0]
+set mcp.fx                               [4 127 24 20 0 0 0 0]
 
-set mcp.volume.label                    [4 180 46 20 0 0 0 0]
-  set mcp.volume                        h<350 [4 200 46 128 0 0 0 1] [4 200 46 84 0 0 0 1]
-  set mcp.volume.label.color            [127 153 179]
+set mcp.volume.label                     [4 180 46 20 0 0 0 0]
+  set mcp.volume                         h<350 [4 200 46 128 0 0 0 1] [4 200 46 84 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1079,18 +1279,18 @@ set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_p
 
 set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set mcp.width.fadermode                [1]
-  set mcp.width.color                   [230 230 230]
-  set mcp.width.label                   [4 91 46 21 0 0 0 0]
-  set mcp.width.label.color             [230 230 230]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 91 46 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
   set mcp.width.label.margin             [0 -7 0 0 0.5]
 
 set mcp.io                               [28 115 22 32 0 0 0 0]
 
-set mcp.phase                           [4 150 24 23 0 0 0 0]
+set mcp.phase                            [4 150 24 23 0 0 0 0]
 
-set mcp.env                             [28 150 22 23 0 0 0 0]
+set mcp.env                              [28 150 22 23 0 0 0 0]
 
-set mcp.meter                           h<350 [6 199 25 127 0 0 0 1] [6 200 25 82 0 0 0 1]
+set mcp.meter                            h<350 [6 199 25 127 0 0 0 1] [6 200 25 82 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
   set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
@@ -1098,27 +1298,17 @@ set mcp.meter                           h<350 [6 199 25 127 0 0 0 1] [6 200 25 8
   set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
 
+set mcp.recarm                           h<350 [0] [27 308 23 20 0 1 0 1]
 
-set mcp.recarm                          h<350 [0] [27 308 23 20 0 1 0 1]
+set mcp.recmode                          h<350 [0] [27 287 23 21 0 1 0 1]
 
-set mcp.recmode                         h<350 [0] [27 287 23 21 0 1 0 1]
+set mcp.recmon                           h<350 [0] [4 308 23 20 0 1 0 1]
 
-set mcp.recmon                         h<350 [0] [4 308 23 20 0 1 0 1]
+set mcp.fxin                             h<350 [0] [4 287 23 21 0 1 0 1]
 
-set mcp.fxin                           h<350 [0] [4 287 23 21 0 1 0 1]
-
-set mcp.recinput                       folderstate=1 [-65 333 118 18 0 1 0 1] folderstate<0 [-70 333 118 18 0 1 0 1] [-70 333 123 18 0 1 0 1]
-  set mcp.recinput.color                [184 184 184]
+set mcp.recinput                         folderstate=1 [-65 333 118 18 0 1 0 1] folderstate<0 [-70 333 118 18 0 1 0 1] [-70 333 123 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
   set mcp.recinput.margin                [2 0 2 2 0.5]
-
-
-
-;set l_sec                                + mcp.pan.label{h}>0 [0 13] [0 0 0 13] \
-                                         + +:-1:1 [0 0 0 137] [0 97 0 h] \
-                                         +:-1:1 [0 0 0 mcp.recinput{h}] [0 mcp.recinput{h}]
-
-;set mcp.recmon                           l_sec{h}<162 [0] [60 259 17 23 0 1 0 1]
-
 
 set mcp.extmixer.mode                    [0]
     set mcp.fxlist.font                  [2 16]
@@ -1151,33 +1341,125 @@ EndLayout
 
 ; ----------------------------------------------------
 
-Layout "ea - Large" "large"
-
- ; --------------- User adjustable values. Edit without fear. -----------------
-
-  set hide_input               [200] ; height below which input dropdown is hidden.
-  set hide_pan_labels          [200] ; height below which pan labels are hidden.
-  set hide_volume_label        [500] ; meter area height below which volume label is hidden.
-
-  ; ------- End of user adjustable values. From here on may be dragons. ---------
-
+Layout "Lda - Small Sidebar (label bottom)" "small sidebar lb"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
-set mcp.size                             [109 370 0 260]
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+set mcp.size                             [54 370 0 260]
 
-set mcp.label                            [3 12 103 25 0 0 0 0]
-  set mcp.label.margin                   [4 0 4 0 0.3]
-  set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
+set mcp.label                            [-67 341 117 25 0 1 0 1]
+  set mcp.label.margin                   [2 0 2 0 0.3]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
   set mcp.label.font [10]
 
-set mcp.fx                              [49 43 17 22 0 0 0 0]
-set mcp.fxbyp                           [66 43 13 22 0 0 0 0]
+set mcp.mute                             [4 32 24 23 0 0 0 0]
+set mcp.solo                             [28 32 22 23 0 0 0 0]
 
-set mcp.volume.label                    [4 119 75 20 0 0 0 0]
-  set mcp.volume                        [4 139 75 189 0 0 0 1]
-  set mcp.volume.label.color            [127 153 179]
+set mcp.fxbyp                            [4 104 24 12 0 0 0 0]
+set mcp.fx                               [4 116 24 20 0 0 0 0]
+
+set mcp.volume.label                     [4 169 46 20 0 0 0 0]
+  set mcp.volume                         h<350 [4 189 46 128 0 0 0 1] [4 189 46 84 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.margin            [0 4 0 0 0.5]
+
+set mcp_panwid_hgt trackpanmode==6 17 21
+set mcp_panwid_wid trackpanmode==6 46 39
+
+set mcp_panwid_xp1 trackpanmode==6 3 7
+set mcp_pan_yp1 trackpanmode==6 77 64
+set mcp_wid_yp1 trackpanmode==6 98 85
+
+set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.pan.fadermode                  [1]
+  set mcp.pan.color                      gl_pan_color
+  set mcp.pan.label                      [4 58 46 22 0 0 0 0]
+  set mcp.pan.label.color                [230 230 230]
+  set mcp.pan.label.margin               [0 -7 0 0 0.5]
+
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.width.fadermode                [1]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 80 46 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
+  set mcp.width.label.margin             [0 -7 0 0 0.5]
+
+set mcp.io                               [28 104 22 32 0 0 0 0]
+
+set mcp.phase                            [4 139 24 23 0 0 0 0]
+
+set mcp.env                              [28 139 22 23 0 0 0 0]
+
+set mcp.meter                            h<350 [6 188 25 127 0 0 0 1] [6 189 25 82 0 0 0 1]
+  set mcp.meter.vu.div                   [1 1]
+  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+
+set mcp.recarm                           h<350 [0] [27 297 23 20 0 1 0 1]
+
+set mcp.recmode                          h<350 [0] [27 276 23 21 0 1 0 1]
+
+set mcp.recmon                           h<350 [0] [4 297 23 20 0 1 0 1]
+
+set mcp.fxin                             h<350 [0] [4 276 23 21 0 1 0 1]
+
+set mcp.recinput                         folderstate=1 [-65 322 118 18 0 1 0 1] folderstate<0 [-70 322 118 18 0 1 0 1] [-70 322 123 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
+  set mcp.recinput.margin                [2 0 2 2 0.5]
+
+set mcp.extmixer.mode                    [0]
+    set mcp.fxlist.font                  [2 16]
+    set mcp.fxlist.margin                [4 0 4 0 0.5]
+    set mcp.sendlist.font                [2 16]
+    set mcp.sendlist.margin              [4 0 4 0 0]
+    set mcp.fxparm.font                  [2 28]
+    set mcp.fxparm.margin                [2 0 4 0 0]
+set mcp.trackidx                         [17 13 20 18 0 0 0 0]
+  set mcp.trackidx.margin                [0 0 0 3 0.5]
+  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
+  set mcp.trackidx.font                  [1]
+set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [113 10 11 18 0 0 0 0]
+
+make_sidebar2 62 5 34 4 28
+
+  Layout "Ldb - Small Sidebar (label bottom + blue fader)" "small sidebar lb/blue fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Ldc - Small Sidebar (label bottom + green fader)" "small sidebar lb/green fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Ldd - Small Sidebar (label bottom + red fader)" "small sidebar lb/red fader"
+    set mcp.label  .
+  EndLayout
+
+EndLayout
+
+; ----------------------------------------------------
+
+Layout "ea - Large" "large"
+
+clear mcp.*
+
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+set mcp.size                             [109 370 0 260]
+
+set mcp.label                            [4 12 101 25 0 0 0 0]
+  set mcp.label.margin                   [4 0 4 0 0.3]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
+  set mcp.label.font [10]
+
+set mcp.fx                               [49 43 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
+
+set mcp.volume.label                     [4 119 75 20 0 0 0 0]
+  set mcp.volume                         [4 139 75 189 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1196,18 +1478,18 @@ set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_p
 
 set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set mcp.width.fadermode                [1]
-  set mcp.width.color                   [230 230 230]
-  set mcp.width.label                   [4 65 45 21 0 0 0 0]
-  set mcp.width.label.color             [230 230 230]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 65 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
   set mcp.width.label.margin             [0 -7 0 0 0.5]
 
 set mcp.io                               [49 65 30 21 0 0 0 0]
 
-set mcp.phase                           [4 89 23 23 0 0 0 0]
+set mcp.phase                            [4 89 23 23 0 0 0 0]
 
-set mcp.env                             [25 89 80 23 0 0 0 0]
+set mcp.env                              [25 89 80 23 0 0 0 0]
 
-set mcp.meter                           [7 139 44 186 0 0 0 1]
+set mcp.meter                            [7 139 44 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
   set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
@@ -1215,19 +1497,19 @@ set mcp.meter                           [7 139 44 186 0 0 0 1]
   set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
 
-set mcp.mute                            [82 43 23 22 0 0 0 0]
-set mcp.solo                           [82 65 23 21 0 0 0 0]
+set mcp.mute                             [82 43 23 22 0 0 0 0]
+set mcp.solo                             [82 65 23 21 0 0 0 0]
 
 set mcp.recarm                           [82 306 23 22 0 1 0 1]
 
 set mcp.recmode                          [82 289 23 18 0 1 0 1]
 
-set mcp.recmon                          [82 270 23 19 0 1 0 1]
+set mcp.recmon                           [82 270 23 19 0 1 0 1]
 
-set mcp.fxin                           [82 249 23 21 0 1 0 1]
+set mcp.fxin                             [82 249 23 21 0 1 0 1]
 
-set mcp.recinput                      folderstate=1 [6 333 102 18 0 1 0 1] folderstate<0 [1 333 102 18 0 1 0 1] [1 333 107 18 0 1 0 1]
-  set mcp.recinput.color                [184 184 184]
+set mcp.recinput                         folderstate=1 [6 333 102 18 0 1 0 1] folderstate<0 [1 333 102 18 0 1 0 1] [1 333 107 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
   set mcp.recinput.margin                [2 0 2 3 0.5]
 
 set mcp.extmixer.mode                    [0]
@@ -1259,16 +1541,106 @@ EndLayout
 
 ; ----------------------------------------------------
 
+Layout "Lea - Large (label bottom)" "large lb"
+
+clear mcp.*
+
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+set mcp.size                             [109 370 0 260]
+
+set mcp.label                            [4 341 101 25 0 1 0 1]
+  set mcp.label.margin                   [4 0 4 0 0.3]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
+  set mcp.label.font [10]
+
+set mcp.fx                               [49 32 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 32 13 22 0 0 0 0]
+
+set mcp.volume.label                     [4 108 75 20 0 0 0 0]
+  set mcp.volume                         [4 128 75 189 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.margin            [0 4 0 0 0.5]
+
+set mcp_panwid_hgt trackpanmode==6 17 21
+set mcp_panwid_wid trackpanmode==6 46 39
+
+set mcp_panwid_xp1 trackpanmode==6 3 7
+set mcp_pan_yp1 trackpanmode==6 51 38
+set mcp_wid_yp1 trackpanmode==6 71 58
+
+set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.pan.fadermode                  [1]
+  set mcp.pan.color                      gl_pan_color
+  set mcp.pan.label                      [4 32 45 22 0 0 0 0]
+  set mcp.pan.label.color                [230 230 230]
+  set mcp.pan.label.margin               [0 -7 0 0 0.5]
+
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.width.fadermode                [1]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 54 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
+  set mcp.width.label.margin             [0 -7 0 0 0.5]
+
+set mcp.io                               [49 54 30 21 0 0 0 0]
+
+set mcp.phase                            [4 78 23 23 0 0 0 0]
+
+set mcp.env                              [25 78 80 23 0 0 0 0]
+
+set mcp.meter                            [7 128 44 186 0 0 0 1]
+  set mcp.meter.vu.div                   [1 1]
+  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+
+set mcp.mute                             [82 32 23 22 0 0 0 0]
+set mcp.solo                             [82 54 23 21 0 0 0 0]
+
+set mcp.recarm                           [82 295 23 22 0 1 0 1]
+
+set mcp.recmode                          [82 278 23 18 0 1 0 1]
+
+set mcp.recmon                           [82 259 23 19 0 1 0 1]
+
+set mcp.fxin                             [82 238 23 21 0 1 0 1]
+
+set mcp.recinput                         folderstate=1 [6 322 102 18 0 1 0 1] folderstate<0 [1 322 102 18 0 1 0 1] [1 322 107 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
+  set mcp.recinput.margin                [2 0 2 3 0.5]
+
+set mcp.extmixer.mode                    [0]
+    set mcp.fxlist.font                  [2 16]
+    set mcp.fxlist.margin                [4 0 4 0 0.5]
+    set mcp.sendlist.font                [2 16]
+    set mcp.sendlist.margin              [4 0 4 0 0]
+    set mcp.fxparm.font                  [2 28]
+    set mcp.fxparm.margin                [2 0 4 0 0]
+set mcp.trackidx                         [44 13 20 18 0 0 0 0]
+  set mcp.trackidx.margin                [0 0 0 3 0.5]
+  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
+  set mcp.trackidx.font                  [1]
+set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [97 10 11 18 0 0 0 0]
+
+  Layout "Leb - Large (label bottom + blue fader)" "large lb/blue fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lec - Large (label bottom + green fader)" "large lb/green fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Led - Large (label bottom + red fader)" "large lb/red fader"
+    set mcp.label  .
+  EndLayout
+
+EndLayout
+
+; ----------------------------------------------------
+
 Layout "fa - Large Sidebar" "large sidebar"
-
- ; --------------- User adjustable values. Edit without fear. -----------------
-
-  set hide_input               [200] ; height below which input dropdown is hidden.
-  set hide_pan_labels          [200] ; height below which pan labels are hidden.
-  set hide_volume_label        [500] ; meter area height below which volume label is hidden.
-
-  ; ------- End of user adjustable values. From here on may be dragons. ---------
-
 
 clear mcp.*
 
@@ -1277,15 +1649,15 @@ set mcp.size                             [109 370 0 260]
 
 set mcp.label                            [-97 12 202 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
-  set mcp.label.color                    ?recarm [222 222 222] [222 222 222]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
   set mcp.label.font [10]
 
-set mcp.fx                              [49 43 17 22 0 0 0 0]
-set mcp.fxbyp                           [66 43 13 22 0 0 0 0]
+set mcp.fx                               [49 43 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
-set mcp.volume.label                    [4 119 75 20 0 0 0 0]
-  set mcp.volume                        [4 139 75 189 0 0 0 1]
-  set mcp.volume.label.color            [127 153 179]
+set mcp.volume.label                     [4 119 75 20 0 0 0 0]
+  set mcp.volume                         [4 139 75 189 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1304,18 +1676,18 @@ set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_p
 
 set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
   set mcp.width.fadermode                [1]
-  set mcp.width.color                   [230 230 230]
-  set mcp.width.label                   [4 65 45 21 0 0 0 0]
-  set mcp.width.label.color             [230 230 230]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 65 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
   set mcp.width.label.margin             [0 -7 0 0 0.5]
 
 set mcp.io                               [49 65 30 21 0 0 0 0]
 
-set mcp.phase                           [4 89 23 23 0 0 0 0]
+set mcp.phase                            [4 89 23 23 0 0 0 0]
 
-set mcp.env                             [25 89 80 23 0 0 0 0]
+set mcp.env                              [25 89 80 23 0 0 0 0]
 
-set mcp.meter                           [7 139 44 186 0 0 0 1]
+set mcp.meter                            [7 139 44 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
   set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
@@ -1323,19 +1695,19 @@ set mcp.meter                           [7 139 44 186 0 0 0 1]
   set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
   set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
 
-set mcp.mute                            [82 43 23 22 0 0 0 0]
-set mcp.solo                           [82 65 23 21 0 0 0 0]
+set mcp.mute                             [82 43 23 22 0 0 0 0]
+set mcp.solo                             [82 65 23 21 0 0 0 0]
 
 set mcp.recarm                           [82 306 23 22 0 1 0 1]
 
 set mcp.recmode                          [82 289 23 18 0 1 0 1]
 
-set mcp.recmon                          [82 270 23 19 0 1 0 1]
+set mcp.recmon                           [82 270 23 19 0 1 0 1]
 
-set mcp.fxin                           [82 249 23 21 0 1 0 1]
+set mcp.fxin                             [82 249 23 21 0 1 0 1]
 
-set mcp.recinput                       folderstate=1 [-95 333 203 18 0 1 0 1] folderstate<0 [-100 333 203 18 0 1 0 1] [-100 333 208 18 0 1 0 1]
-  set mcp.recinput.color                [184 184 184]
+set mcp.recinput                         folderstate=1 [-95 333 203 18 0 1 0 1] folderstate<0 [-100 333 203 18 0 1 0 1] [-100 333 208 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
   set mcp.recinput.margin                [2 1 2 3 0.5]
 
 set mcp.extmixer.mode                    [0]
@@ -1369,21 +1741,113 @@ EndLayout
 
 ; ----------------------------------------------------
 
+Layout "Lfa - Large Sidebar (label bottom)" "large sidebar lb"
+
+clear mcp.*
+
+front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+set mcp.size                             [109 370 0 260]
+
+set mcp.label                            [-97 341 202 25 0 1 0 1]
+  set mcp.label.margin                   [4 0 4 0 0.3]
+  colorsmart_label mcp.label.color 222 222 222 mcp_red_label
+  set mcp.label.font [10]
+
+set mcp.fx                               [49 32 17 22 0 0 0 0]
+set mcp.fxbyp                            [66 32 13 22 0 0 0 0]
+
+set mcp.volume.label                     [4 108 75 20 0 0 0 0]
+  set mcp.volume                         [4 128 75 189 0 0 0 1]
+  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.margin            [0 4 0 0 0.5]
+
+set mcp_panwid_hgt trackpanmode==6 17 21
+set mcp_panwid_wid trackpanmode==6 46 39
+
+set mcp_panwid_xp1 trackpanmode==6 3 7
+set mcp_pan_yp1 trackpanmode==6 51 38
+set mcp_wid_yp1 trackpanmode==6 72 58
+
+set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.pan.fadermode                  [1]
+  set mcp.pan.color                      gl_pan_color
+  set mcp.pan.label                      [4 32 45 22 0 0 0 0]
+  set mcp.pan.label.color                [230 230 230]
+  set mcp.pan.label.margin               [0 -7 0 0 0.5]
+
+set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+  set mcp.width.fadermode                [1]
+  set mcp.width.color                    [230 230 230]
+  set mcp.width.label                    [4 54 45 21 0 0 0 0]
+  set mcp.width.label.color              [230 230 230]
+  set mcp.width.label.margin             [0 -7 0 0 0.5]
+
+set mcp.io                               [49 54 30 21 0 0 0 0]
+
+set mcp.phase                            [4 78 23 23 0 0 0 0]
+
+set mcp.env                              [25 78 80 23 0 0 0 0]
+
+set mcp.meter                            [7 128 44 186 0 0 0 1]
+  set mcp.meter.vu.div                   [1 1]
+  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+
+set mcp.mute                             [82 32 23 22 0 0 0 0]
+set mcp.solo                             [82 54 23 21 0 0 0 0]
+
+set mcp.recarm                           [82 295 23 22 0 1 0 1]
+
+set mcp.recmode                          [82 278 23 18 0 1 0 1]
+
+set mcp.recmon                           [82 259 23 19 0 1 0 1]
+
+set mcp.fxin                             [82 238 23 21 0 1 0 1]
+
+set mcp.recinput                         folderstate=1 [-95 322 203 18 0 1 0 1] folderstate<0 [-100 322 203 18 0 1 0 1] [-100 322 208 18 0 1 0 1]
+  set mcp.recinput.color                 [184 184 184]
+  set mcp.recinput.margin                [2 1 2 3 0.5]
+
+set mcp.extmixer.mode                    [0]
+    set mcp.fxlist.font                  [2 16]
+    set mcp.fxlist.margin                [4 0 4 0 0.5]
+    set mcp.sendlist.font                [2 16]
+    set mcp.sendlist.margin              [4 0 4 0 0]
+    set mcp.fxparm.font                  [2 28]
+    set mcp.fxparm.margin                [2 0 4 0 0]
+set mcp.trackidx                         [44 13 20 18 0 0 0 0]
+  set mcp.trackidx.margin                [0 0 0 3 0.5]
+  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
+  set mcp.trackidx.font                  [1]
+set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [198 10 11 18 0 0 0 0]
+
+make_sidebar2 92 5 34 4 28
+
+  Layout "Lfb - Large Sidebar (label bottom + blue fader)" "large sidebar lb/blue fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lfc - Large Sidebar (label bottom + green fader)" "large sidebar lb/green fader"
+    set mcp.label  .
+  EndLayout
+
+  Layout "Lfd - Large Sidebar (label bottom + red fader)" "large sidebar lb/red fader"
+    set mcp.label  .
+  EndLayout
+
+EndLayout
+
+; ----------------------------------------------------
+
 Layout "Separator" "separator"
-
- ; --------------- User adjustable values. Edit without fear. -----------------
-
-  set hide_input               [200] ; height below which input dropdown is hidden.
-  set hide_pan_labels          [200] ; height below which pan labels are hidden.
-  set hide_volume_label        [500] ; meter area height below which volume label is hidden.
-
-  ; ------- End of user adjustable values. From here on may be dragons. ---------
-
 
 clear mcp.*
 
 front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
-set mcp.size                             [32 370 0 286]
+set mcp.size                             [32 370 0 260]
 set mcp.extmixer.mode                    [1]
 EndLayout
 
@@ -1391,12 +1855,11 @@ EndLayout
 
 clear master.mcp.*
 
-
-front                master.mcp.menubutton master.mcp.env master.mcp.mono master.mcp.meter
-set master.mcp.size         [125 370 0 286]
+front                                           master.mcp.menubutton master.mcp.env master.mcp.mono master.mcp.meter
+set master.mcp.size                             [125 370 0 260]
 
 set master.mcp.label                            [3 12 119 25 0 0 0 0]
-    set master.mcp.label.color                  [230 230 230]
+  colorsmart_label master.mcp.label.color 230 230 230 mcp_red_label
 
 set mcp_panwid_hgt trackpanmode==6 21 26
 set mcp_panwid_wid trackpanmode==6 65 54
@@ -1458,13 +1921,43 @@ set master.mcp.extmixer.mode                    [0]
   set master.mcp.fxparm.margin                  [2 0 4 0 0]
 
 
+Layout "ma - Master (label bottom)" "label bottom"
+
+set master.mcp.label                            [3 341 119 25 0 1 0 1]
+
+set mcp_pan_yp1 trackpanmode==6 49 16
+set mcp_wid_yp1 trackpanmode==6 70 37
+
+set master.mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set master.mcp.pan.label                        [4 13 61 22 0 0 0 0]
+
+set master.mcp.fx                               [65 13 17 22 0 0 0 0]
+set master.mcp.fxbyp                            [82 13 13 22 0 0 0 0]
+
+set master.mcp.mute                             [98 13 23 22 0 0 0 0]
+
+set master.mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set master.mcp.width.label                      [4 35 61 21 0 0 0 0]
+
+set master.mcp.io                               [65 35 30 21 0 0 0 0]
+set master.mcp.solo                             [98 35 23 21 0 0 0 0]
+set master.mcp.mono                             [4 59 38 23 0 0 0 0]
+set master.mcp.env                              [41 59 54 23 0 0 0 0]
+set master.mcp.menubutton                       [98 59 23 23 0 0 0 0]
+
+set master.mcp.meter                            [11 103 81 228 0 0 0 1]
+
+set master.mcp.volume.label                     [4 89 117 20 0 0 0 0]
+set master.mcp.volume                           [4 107 117 228 0 0 0 1]
+
+EndLayout
 
 ; -------------------------- TRANSPORT --------------------------
 
 ; WIP
 clear trans.*
-set trans.size            [953 53]
-set trans.size.minmax         [273 53 953 53]
+set trans.size                  [953 53]
+set trans.size.minmax           [273 53 953 53]
 set trans.size.dockedheight     [53]
 front     trans.fwd trans.bpm.tap trans.curtimesig trans.play trans.rate trans.rate.fader trans.sel trans.rec trans.repeat
 
