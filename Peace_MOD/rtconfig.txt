@@ -141,7 +141,7 @@ set tcp.meter.vu.div [12 -1]
 
 set font_add / h 12
 set font_h h<72 + 5 font_add 16 ; h<24 7 h<36 8 h<47 10 h<60 11 h<
-set tcp.fxparm w<325 [0] [33 2 81 100 0 0 0.3 1]
+set tcp.fxparm w<325 [0] [33 2 81 160 0 0 0.3 1] ; 160 is a fantasy number which prevents multiple columns
 set tcp.fxparm.font   [2 font_h 24 w]
 set tcp.fxparm.margin [4 0 4 0 0.5]
 
@@ -523,7 +523,7 @@ set master.tcp.meter.vu.div [12 -1]
 
 set font_add / h 12
 set font_h h<72 + 5 font_add 16 ; h<24 7 h<36 8 h<47 10 h<60 11 h<
-set master.tcp.fxparm w<325 [0] [33 2 81 100 0 0 0.3 1]
+set master.tcp.fxparm w<325 [0] [33 2 81 160 0 0 0.3 1] ; 160 is a fantasy number which prevents multiple columns
 set master.tcp.fxparm.font   [2 font_h 24 w]
 set master.tcp.fxparm.margin [4 0 4 0 0.5]
 
