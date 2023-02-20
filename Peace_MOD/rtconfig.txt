@@ -117,7 +117,7 @@ set sizew + 400 tcp_meterw{0}
 
 set tcp.size [sizew{0} 100 254 0]
 
-front tcp.trackidx tcp.folder tcp.foldercomp tcp.io tcp.fx tcp.fxbyp tcp.io tcp.fxparm tcp.recarm tcp.recmon tcp.solo tcp.mute tcp.env tcp.label tcp.recmode tcp.recinput tcp.fxin tcp.fxin tcp.phase tcp.volume.label tcp.volume tcp.pan.label tcp.pan tcp.width.label tcp.width tcp.meter
+front tcp.trackidx tcp.folder tcp.foldercomp tcp.io tcp.fx tcp.fxbyp tcp.io tcp.fxparm tcp.recarm tcp.recmon tcp.solo tcp.mute tcp.env tcp.label tcp.recmode tcp.recinput tcp.fxin tcp.fxin tcp.phase tcp.volume.label tcp.volume tcp.pan.label tcp.pan tcp.width.label tcp.width ;tcp.meter
 
 set tcp.margin +:maxfolderdepth:1 [0 0 0 0] +:folderdepth:1 [0 0 0 0]
 set inv_m * [-1] tcp.margin
@@ -313,16 +313,16 @@ set tcp.label  .
 
 front tcp.trackidx tcp.folder tcp.foldercomp tcp.io tcp.fx tcp.fxbyp tcp.io tcp.fxparm tcp.recarm tcp.recmon tcp.solo tcp.mute tcp.label tcp.recmode tcp.recinput tcp.fxin tcp.env tcp.fxin tcp.phase tcp.volume.label tcp.volume tcp.pan.label tcp.pan tcp.width.label tcp.width tcp.meter
 
-set tcp.size [402 100 254 0]
+set tcp.size h<47 [sizew{0} 100 254 0] [402 100 254 0]
 
 set showfx tcp_fxparms!=tcp_fxembed w>=325 1
 set tcp.fxembed tcp_fxembed>0 h<124 [0] showfx{0}==1 [118 58 260 10 0.3 0 1 1] [36 58 354 10 0 0 1 1]
 set tcp.fxembedheader.color [255 255 255 255 0 0 0 255]
 
-set tcp.meter h<47 [396 2 9 96 1 0 1 1] \
-    h<77 showfx{0}==1 [200 52 140 16 0.3 0.5 1 0.5] [118 52 222 16 0 0.5 1 0.5] \
-    h<100 showfx{0}==1 [200 37 140 16 0.3 0.35 1 0.35] [118 37 222 16 0 0.35 1 0.35] \
-      showfx{0}==1 [200 37 140 16 0.3 0 1 0] [118 37 222 16 0 0 1 0]
+set tcp.meter h<47 [399 2 tcp_meterw{0} 96 1 0 1 1] \
+    h<77 showfx{0}==1 [198 52 140 17 0.3 0.5 1 0.5] [116 52 222 17 0 0.5 1 0.5] \
+    h<100 showfx{0}==1 [198 37 140 17 0.3 0.35 1 0.35] [116 37 222 17 0 0.35 1 0.35] \
+      showfx{0}==1 [198 37 140 17 0.3 0 1 0] [116 37 222 17 0 0 1 0]
 set tcp.meter.inputlabel.color [0]
 set tcp.meter.inputlabelbox.color [0]
 set tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[0]
@@ -356,9 +356,6 @@ EndLayout
 Layout "c - Simple" "tcp simple"
 
 clear tcp.*
-
-set tcp_meterw tcp_meter_width{0}==0 0 tcp_meter_width{0}==1 9 tcp_meter_width{0}==2 18 tcp_meter_width{0}==3 27 36
-set sizew + 400 tcp_meterw{0}
 
 set tcp.size [sizew{0} 100 254 0]
 
@@ -445,9 +442,6 @@ Layout "d - Elementary" "tcp simple"
 
 clear tcp.*
 
-set tcp_meterw tcp_meter_width{0}==0 0 tcp_meter_width{0}==1 9 tcp_meter_width{0}==2 18 tcp_meter_width{0}==3 27 36
-set sizew + 400 tcp_meterw{0}
-
 set tcp.size [sizew{0} 100 254 0]
 
 front tcp.trackidx tcp.folder tcp.foldercomp tcp.fx tcp.fxbyp tcp.io tcp.fxparm tcp.recmon tcp.solo tcp.mute tcp.label tcp.recmode tcp.recinput tcp.fxin tcp.env tcp.fxin tcp.phase tcp.volume.label tcp.volume tcp.pan.label tcp.pan tcp.width.label tcp.recarm tcp.width tcp.io tcp.meter
@@ -513,9 +507,6 @@ EndLayout
 ; -------------------------- MASTER TRACK --------------------------
 
 clear master.tcp.*
-
-set tcp_meterw tcp_meter_width{0}==0 0 tcp_meter_width{0}==1 9 tcp_meter_width{0}==2 18 tcp_meter_width{0}==3 27 36
-set sizew + 400 tcp_meterw{0}
 
 set master.tcp.size [sizew{0} 100 254 0]
 ;set master.tcp.size [406 100 254 0]
