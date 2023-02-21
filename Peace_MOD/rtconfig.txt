@@ -127,6 +127,7 @@ set tcp_meterw tcp_meter_width{0}==0 0 tcp_meter_width{0}==1 9 tcp_meter_width{0
 set sizew + 400 tcp_meterw{0}
 
 set tcp.size [sizew 100 254 0]
+set showfx tcp_fxparms!=tcp_fxembed w>=325 1
 
 front tcp.trackidx tcp.folder tcp.foldercomp tcp.io tcp.fx tcp.fxbyp tcp.io tcp.fxparm tcp.recarm tcp.recmon tcp.solo tcp.mute tcp.env tcp.label tcp.recmode tcp.recinput tcp.fxin tcp.fxin tcp.phase tcp.volume.label tcp.volume tcp.pan.label tcp.pan tcp.width.label tcp.width tcp.meter
 
@@ -165,9 +166,9 @@ set tcp.fxparm.margin [2 0 2 0 0.5]
 set tcp.fxparm w<325 [0] [33 2 81 magic_h 0 0 0 1]
 
 make_elx elx 36
+make_elw elw 272
 
-set showfx tcp_fxparms!=tcp_fxembed w>=325 1
-set tcp.fxembed tcp_fxembed>0 h<124 [0] [elx 58 354 10 0 0 1 1]
+set tcp.fxembed tcp_fxembed>0 h<124 [0] [elx 58 elw 10 0 0 1 1]
 set tcp.fxembedheader.color [255 255 255 255 0 0 0 255]
 
 make_elx elx 81
@@ -382,9 +383,9 @@ front tcp.trackidx tcp.folder tcp.foldercomp tcp.io tcp.fx tcp.fxbyp tcp.io tcp.
 set tcp.size h<47 [sizew 100 254 0] [402 100 254 0]
 
 make_elx elx 36
+make_elw elw 272
 
-set showfx tcp_fxparms!=tcp_fxembed w>=325 1
-set tcp.fxembed tcp_fxembed>0 h<124 [0] [elx 58 354 10 0 0 1 1]
+set tcp.fxembed tcp_fxembed>0 h<124 [0] [elx 58 elw 10 0 0 1 1]
 set tcp.fxembedheader.color [255 255 255 255 0 0 0 255]
 
 make_elx elx 116
@@ -615,9 +616,9 @@ set master.tcp.fxparm.margin [2 0 2 0 0.5]
 set master.tcp.fxparm w<325 [0] [33 2 81 magic_h 0 0 0 1]
 
 make_elx elx 36
+make_elw elw 272
 
-set showfx tcp_fxparms!=tcp_fxembed w>=325 1
-set master.tcp.fxembed tcp_fxembed>0 h<124 [0] [elx 58 354 10 0 0 1 1]
+set master.tcp.fxembed tcp_fxembed>0 h<124 [0] [elx 58 elw 10 0 0 1 1]
 set master.tcp.fxembedheader.color [255 255 255 255 0 0 0 255]
 
 make_elx elx 81
