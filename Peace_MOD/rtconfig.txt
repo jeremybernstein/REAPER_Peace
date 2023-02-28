@@ -33,6 +33,7 @@ define_parameter Peace_MOD 'Peace_MOD' 1
 define_parameter tcp_red_label 'TCP Red Label when Record-Enabled' 0 0 1
 define_parameter mcp_red_label 'MCP Red Label when Record-Enabled' 0 0 1
 define_parameter tcp_send_columns 'TCP Show FX/Send Columns' 0 0 1
+define_parameter tcp_send_pos 'TCP Send Position (Left/Right)' 0 0 1
 define_parameter tcp_meter_width 'TCP Meter Width' 1 0 4
 
 ; -------------------------- WALTER --------------------------
@@ -102,7 +103,7 @@ endmacro
 
 macro make_elx name val
   set name val
-  set name showfx{0}==1 + name 82
+  set name tcp_send_pos==0 showfx{0}==1 + name 82
 endmacro
 
 macro make_elw name val
@@ -163,7 +164,9 @@ set cell_w tcp_send_columns{0}==1 30 100 ; prevent columns!
 set tcp.fxparm.font [2 font_h cell_w magic_h -1 0 1 8]
 set tcp.fxparm.margin [2 0 2 0 0.5]
 
-set tcp.fxparm w<325 [0] [33 2 81 magic_h 0 0 0 1]
+set fxx 33
+set fxx tcp_send_pos==1 showfx{0}==1 - w 97 33
+set tcp.fxparm w<325 [0] [fxx 2 81 magic_h 0 0 0 1]
 
 make_elx elx 36
 make_elw elw 272
@@ -177,7 +180,7 @@ set tcp.fx h<24 [elx -1 17 23 0 0 0 0] \
     h<47 [elx 38 17 23 0 0.5 0 0.5] \
     h<77 [elx 28 17 23 0 0.5 0 0.5] \
     h<100 [elx 13 17 23 0 0.35 0 0.35] \
-    [elx{0} 13 17 23 0 0 0 0]
+    [elx 13 17 23 0 0 0 0]
 
 make_elx elx 98
 
@@ -208,15 +211,21 @@ set tcp.label.font showfx{0}==0 w<350 [-1]
 set tcp.label.font showfx{0}==1 w<500 [-1]
 set tcp.label.margin [2 3 2 1 0.5]
 
-set tcp.mute h<24 [345 -1 23 23 1 0 1 0] \
-    h<47 [345 38 23 23 1 0.5 1 0.5] \
-    h<77 [345 28 23 23 1 0.5 1 0.5] \
-    h<100 [345 13 23 23 1 0.35 1 0.35] [345 13 23 23 1 0 1 0]
+set elx 345
+set elx tcp_send_pos==1 showfx{0}==1 - elx 82
 
-set tcp.solo h<24 [368 -1 22 23 1 0 1 0] \
-    h<47 [368 38 22 23 1 0.5 1 0.5] \
-    h<77 [368 28 22 23 1 0.5 1 0.5] \
-    h<100 [368 13 22 23 1 0.35 1 0.35] [368 13 22 23 1 0 1 0]
+set tcp.mute h<24 [elx -1 23 23 1 0 1 0] \
+    h<47 [elx 38 23 23 1 0.5 1 0.5] \
+    h<77 [elx 28 23 23 1 0.5 1 0.5] \
+    h<100 [elx 13 23 23 1 0.35 1 0.35] [elx 13 23 23 1 0 1 0]
+
+set elx 368
+set elx tcp_send_pos==1 showfx{0}==1 - elx 82
+
+set tcp.solo h<24 [elx -1 22 23 1 0 1 0] \
+    h<47 [elx 38 22 23 1 0.5 1 0.5] \
+    h<77 [elx 28 22 23 1 0.5 1 0.5] \
+    h<100 [elx 13 22 23 1 0.35 1 0.35] [elx 13 22 23 1 0 1 0]
 
 make_elx elx 46
 make_elx elx2 114
@@ -231,11 +240,13 @@ set tcp.volume h<24 [elx -1 27 23 0 0 0 0] \
       [elx2 34 elw 22 0 0 1 0]
 
 make_elx elx 36
+set elx2 344
+set elx2 tcp_send_pos==1 showfx{0}==1 - elx2 82
 
 set tcp.volume.label h<24 [elx -1 45 23 0 0 0 0] \
     h<47 [elx 38 45 23 0 0.5 0 0.5] \
-    h<77 [344 49 46 22 1 0.5 1 0.5] \
-    h<100 [344 34 46 22 1 0.35 1 0.35] [344 34 46 22 1 0 1 0]
+    h<77 [elx2 49 46 22 1 0.5 1 0.5] \
+    h<100 [elx2 34 46 22 1 0.35 1 0.35] [elx2 34 46 22 1 0 1 0]
 set tcp.volume.label.color [127 153 179]
 set tcp.volume.label.font [16]
 set tcp.volume.label.margin [1 3 0 0 0.5]
@@ -252,9 +263,9 @@ make_elx elx tpm
 
 set tcp.pan.fadermode [1]
 set tcp.pan h<47 [0] \
-    h<77 [elx{0} tcp_pan_yp1{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.5 0 0.5] \
-    h<100 [elx{0} tcp_pan_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.35 0 0.35] \
-      [elx{0} tcp_pan_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0 0 0]
+    h<77 [elx tcp_pan_yp1 tcp_panwid_wid tcp_panwid_hgt 0 0.5 0 0.5] \
+    h<100 [elx tcp_pan_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0.35 0 0.35] \
+      [elx tcp_pan_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0 0 0]
 
 make_elx elx 36
 
@@ -273,9 +284,9 @@ make_elx elx tpm
 
 set tcp.width.fadermode [1]
 set tcp.width h<47 [0] \
-    h<77 [elx{0} tcp_wid_yp1{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.5 0 0.5] \
-    h<100 [elx{0} tcp_wid_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.35 0 0.35] \
-      [elx{0} tcp_wid_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0 0 0]
+    h<77 [elx tcp_wid_yp1 tcp_panwid_wid tcp_panwid_hgt 0 0.5 0 0.5] \
+    h<100 [elx tcp_wid_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0.35 0 0.35] \
+      [elx tcp_wid_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0 0 0]
 
 make_elx elx 36
 
@@ -479,6 +490,9 @@ colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 set tcp.label.font [0]
 set tcp.label.margin [3 3 2 1 0.5]
 
+set elx 345
+set elx tcp_send_pos==1 showfx{0}==1 - elx 82
+
 set tcp.mute h<24 [345 -1 23 23 1 0 1 0] \
     h<47 [345 38 23 23 1 0.5 1 0.5] [345 13 23 23 1 0 1 0]
 set tcp.solo h<24 [368 -1 22 23 1 0 1 0] \
@@ -498,8 +512,8 @@ set tcp_pan_yp2 trackpanmode>4 39 43
 set tcp_pan_yp3 trackpanmode>4 14 18
 
 set tcp.pan.fadermode [1]
-set tcp.pan h<24 w<375 [0] [137 tcp_pan_yp1{0} 39 tcp_pan_hgt{0} 0 0 0 0] \
-    h<47 w<375 [0] [137 tcp_pan_yp2{0} 39 tcp_pan_hgt{0} 0 0.5 0 0.5] w<375 [0] [137 tcp_pan_yp3{0} 39 tcp_pan_hgt{0} 0 0 0 0]
+set tcp.pan h<24 w<375 [0] [137 tcp_pan_yp1 39 tcp_pan_hgt 0 0 0 0] \
+    h<47 w<375 [0] [137 tcp_pan_yp2 39 tcp_pan_hgt 0 0.5 0 0.5] w<375 [0] [137 tcp_pan_yp3 39 tcp_pan_hgt 0 0 0 0]
 set tcp.pan.label h<24 w<375 [0] [137 -1 42 23 0 0 0 0] \
     h<47 w<375 [0] [137 38 42 23 0 0.5 0 0.5] w<375 [0] [137 13 42 23 0 0 0 0]
 set tcp.pan.label.color trackpanmode>4 [57 57 57] [230 230 230]
@@ -613,7 +627,9 @@ set master.tcp.meter.vu.div [1 -1]
 set master.tcp.fxparm.font [2 font_h cell_w magic_h -1 0 1 8]
 set master.tcp.fxparm.margin [2 0 2 0 0.5]
 
-set master.tcp.fxparm w<325 [0] [33 2 81 magic_h 0 0 0 1]
+set fxx 33
+set fxx tcp_send_pos==1 showfx{0}==1 - w 97 33
+set master.tcp.fxparm w<325 [0] [fxx 2 81 magic_h 0 0 0 1]
 
 make_elx elx 36
 make_elw elw 272
@@ -651,14 +667,21 @@ colorsmart_label master.tcp.label.color 255 255 255 tcp_red_label
 set master.tcp.label.font [0]
 set master.tcp.label.margin [2 3 2 1 0.5]
 
-set master.tcp.mute h<24 [345 -1 23 23 1 0 1 0] \
-    h<47 [345 38 23 23 1 0.5 1 0.5] \
-    h<77 [345 28 23 23 1 0.5 1 0.5] \
-    h<100 [345 13 23 23 1 0.35 1 0.35] [345 13 23 23 1 0 1 0]
-set master.tcp.solo h<24 [368 -1 22 23 1 0 1 0] \
-    h<47 [368 38 22 23 1 0.5 1 0.5] \
-    h<77 [368 28 22 23 1 0.5 1 0.5] \
-    h<100 [368 13 22 23 1 0.35 1 0.35] [368 13 22 23 1 0 1 0]
+set elx 345
+set elx tcp_send_pos==1 showfx{0}==1 - elx 82
+
+set master.tcp.mute h<24 [elx -1 23 23 1 0 1 0] \
+    h<47 [elx 38 23 23 1 0.5 1 0.5] \
+    h<77 [elx 28 23 23 1 0.5 1 0.5] \
+    h<100 [elx 13 23 23 1 0.35 1 0.35] [elx 13 23 23 1 0 1 0]
+
+set elx 368
+set elx tcp_send_pos==1 showfx{0}==1 - elx 82
+
+set master.tcp.solo h<24 [elx -1 22 23 1 0 1 0] \
+    h<47 [elx 38 22 23 1 0.5 1 0.5] \
+    h<77 [elx 28 22 23 1 0.5 1 0.5] \
+    h<100 [elx 13 22 23 1 0.35 1 0.35] [elx 13 22 23 1 0 1 0]
 
 make_elx elx 46
 make_elx elx2 114
@@ -672,11 +695,13 @@ set master.tcp.volume h<24 [elx -1 27 23 0 0 0 0] \
       [elx2 34 elw 22 0 0 1 0]
 
 make_elx elx 36
+set elx2 344
+set elx2 tcp_send_pos==1 showfx{0}==1 - elx2 82
 
 set master.tcp.volume.label h<24 [elx -1 45 23 0 0 0 0] \
     h<47 [elx 38 45 23 0 0.5 0 0.5] \
-    h<77 [344 49 46 22 1 0.5 1 0.5] \
-    h<100 [344 34 46 22 1 0.35 1 0.35] [344 34 46 22 1 0 1 0]
+    h<77 [elx2 49 46 22 1 0.5 1 0.5] \
+    h<100 [elx2 34 46 22 1 0.35 1 0.35] [elx2 34 46 22 1 0 1 0]
 set master.tcp.volume.label.color [127 153 179]
 set master.tcp.volume.label.font [16]
 set master.tcp.volume.label.margin [1 3 0 0 0.5]
@@ -692,9 +717,9 @@ make_elx elx tpm
 
 set master.tcp.pan.fadermode [1]
 set master.tcp.pan h<47 [0] \
-    h<77 [elx{0} tcp_pan_yp1{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.5 0 0.5] \
-    h<100 [elx{0} tcp_pan_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.35 0 0.35] \
-      [elx{0} tcp_pan_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0 0 0]
+    h<77 [elx tcp_pan_yp1 tcp_panwid_wid tcp_panwid_hgt 0 0.5 0 0.5] \
+    h<100 [elx tcp_pan_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0.35 0 0.35] \
+      [elx tcp_pan_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0 0 0]
 
 make_elx elx 36
 
@@ -713,9 +738,9 @@ make_elx elx tpm
 
 set master.tcp.width.fadermode [1]
 set master.tcp.width h<47 [0] \
-    h<77 [elx{0} tcp_wid_yp1{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.5 0 0.5] \
-    h<100 [elx{0} tcp_wid_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0.35 0 0.35] \
-      [elx{0} tcp_wid_yp2{0} tcp_panwid_wid{0} tcp_panwid_hgt{0} 0 0 0 0]
+    h<77 [elx tcp_wid_yp1 tcp_panwid_wid tcp_panwid_hgt 0 0.5 0 0.5] \
+    h<100 [elx tcp_wid_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0.35 0 0.35] \
+      [elx tcp_wid_yp2 tcp_panwid_wid tcp_panwid_hgt 0 0 0 0]
 
 make_elx elx 36
 
@@ -812,14 +837,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 49
 set mcp_wid_yp1 trackpanmode==6 71 69
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 43 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 65 45 21 0 0 0 0]
@@ -909,10 +934,10 @@ set mcp.volume                          [4 128 49 189 0 0 0 1]
 set mcp_pan_yp1 trackpanmode==6 51 38
 set mcp_wid_yp1 trackpanmode==6 71 58
 
-set mcp.pan                             [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                             [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
 set mcp.pan.label                       [4 32 45 22 0 0 0 0]
 
-set mcp.width                           [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                           [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
 set mcp.width.label                     [4 54 45 21 0 0 0 0]
 
 set mcp.io                              [49 54 30 21 0 0 0 0]
@@ -985,14 +1010,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 49
 set mcp_wid_yp1 trackpanmode==6 71 69
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 43 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 65 45 21 0 0 0 0]
@@ -1086,14 +1111,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 38
 set mcp_wid_yp1 trackpanmode==6 71 58
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 32 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 54 45 21 0 0 0 0]
@@ -1191,14 +1216,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 77 75
 set mcp_wid_yp1 trackpanmode==6 98 96
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 69 46 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 91 46 21 0 0 0 0]
@@ -1291,14 +1316,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 77 64
 set mcp_wid_yp1 trackpanmode==6 98 85
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 58 46 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 80 46 21 0 0 0 0]
@@ -1391,14 +1416,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 77 75
 set mcp_wid_yp1 trackpanmode==6 98 96
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 69 46 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 91 46 21 0 0 0 0]
@@ -1492,14 +1517,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 77 64
 set mcp_wid_yp1 trackpanmode==6 98 85
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 58 46 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 80 46 21 0 0 0 0]
@@ -1590,14 +1615,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 49
 set mcp_wid_yp1 trackpanmode==6 71 69
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 43 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 65 45 21 0 0 0 0]
@@ -1689,14 +1714,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 38
 set mcp_wid_yp1 trackpanmode==6 71 58
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 32 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 54 45 21 0 0 0 0]
@@ -1788,14 +1813,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 49
 set mcp_wid_yp1 trackpanmode==6 72 69
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 43 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 65 45 21 0 0 0 0]
@@ -1889,14 +1914,14 @@ set mcp_panwid_xp1 trackpanmode==6 3 7
 set mcp_pan_yp1 trackpanmode==6 51 38
 set mcp_wid_yp1 trackpanmode==6 72 58
 
-set mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
   set mcp.pan.color                      gl_pan_color
   set mcp.pan.label                      [4 32 45 22 0 0 0 0]
   set mcp.pan.label.color                [230 230 230]
   set mcp.pan.label.margin               [0 -7 0 0 0.5]
 
-set mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.width.fadermode                [1]
   set mcp.width.color                    [230 230 230]
   set mcp.width.label                    [4 54 45 21 0 0 0 0]
@@ -1989,7 +2014,7 @@ set mcp_panwid_xp1 trackpanmode==6 2 7
 set mcp_pan_yp1 trackpanmode==6 49 46
 set mcp_wid_yp1 trackpanmode==6 70 67
 
-set master.mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set master.mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set master.mcp.pan.fadermode                  [1]
   set master.mcp.pan.color                      [230 230 230]
   set master.mcp.pan.label                      [4 43 61 22 0 0 0 0]
@@ -2001,7 +2026,7 @@ set master.mcp.fxbyp                            [82 43 13 22 0 0 0 0]
 
 set master.mcp.mute                             [98 43 23 22 0 0 0 0]
 
-set master.mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set master.mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set master.mcp.width.fadermode                [1]
   set master.mcp.width.color                    [230 230 230]
   set master.mcp.width.label                    [4 65 61 21 0 0 0 0]
@@ -2049,7 +2074,7 @@ set master.mcp.label                            [3 341 119 25 0 1 0 1]
 set mcp_pan_yp1 trackpanmode==6 49 16
 set mcp_wid_yp1 trackpanmode==6 70 37
 
-set master.mcp.pan                              [mcp_panwid_xp1{0} mcp_pan_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set master.mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
 set master.mcp.pan.label                        [4 13 61 22 0 0 0 0]
 
 set master.mcp.fx                               [65 13 17 22 0 0 0 0]
@@ -2057,7 +2082,7 @@ set master.mcp.fxbyp                            [82 13 13 22 0 0 0 0]
 
 set master.mcp.mute                             [98 13 23 22 0 0 0 0]
 
-set master.mcp.width                            [mcp_panwid_xp1{0} mcp_wid_yp1{0} mcp_panwid_wid{0} mcp_panwid_hgt{0} 0 0 0 0]
+set master.mcp.width                            [mcp_panwid_xp1 mcp_wid_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
 set master.mcp.width.label                      [4 35 61 21 0 0 0 0]
 
 set master.mcp.io                               [65 35 30 21 0 0 0 0]
