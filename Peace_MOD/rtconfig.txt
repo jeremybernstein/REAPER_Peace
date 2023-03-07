@@ -201,19 +201,16 @@ make_elw elw2 149
 make_elx elx3 181
 make_elw elw3 82
 
-make_elx elx4 211
+make_elx elx4 210
 make_elw elw4 53
 
 make_elx elx5 160
 make_elw elw5 103
 
-make_elx elx6 128
-make_elw elw6 135
-
 set tcp.label h<24 showfx{0}==1 w<325 [elx -1 elw 23 0 0 1 0] w<450 [elx5 -1 elw5 23 0 0 1 0] w<500 [elx3 -1 elw3 23 0 0 1 0] [elx4 -1 elw4 23 0 0 1 0] \
       w<400 [elx -1 elw 23 0 0 1 0] w<450 [elx3 -1 elw3 23 0 0 1 0] [elx4 -1 elw4 23 0 0 1 0] \
     h<47 showfx{0}==1 w<325 [elx 38 elw 23 0 0.5 1 0.5] w<450 [elx 38 elw 23 0 0.5 1 0.5] w<500 [elx3 38 elw3 23 0 0.5 1 0.5] [elx4 38 elw4 23 0 0.5 1 0.5] \
-      w<400 [elx 38 elw 23 0 0.5 1 0.5] w<450 [elx3 38 elw3 23 0 0.5 1 0.5] [elx6 38 elw6 23 0 0.5 1 0.5] \
+      w<400 [elx 38 elw 23 0 0.5 1 0.5] w<450 [elx3 38 elw3 23 0 0.5 1 0.5] [elx4 38 elw4 23 0 0.5 1 0.5] \
     h<77 [elx 28 elw 23 0 0.5 1 0.5] \
     h<100 [elx2 13 elw2 23 0 0.35 1 0.35] \
       [elx2 13 elw2 23 0 0 1 0]
@@ -434,16 +431,6 @@ set tcp.meter h<47 [400 2 tcp_meterw 96 1 0 1 1] \
     h<100 [elx2 36 elw 18 0 0.35 1 0.35] \
       [elx2 36 elw 18 0 0 1 0]
 
-
-;make_elx elx 116
-;make_elw elw 140
-;
-;make_elx elx2 136
-;make_elw elw2 120
-;set tcp.meter h<47 [400 2 tcp_meterw 96 1 0 1 1] \
-;    h<77 [elx2 52 elw2 17 0 0.5 1 0.5] \
-;    h<100 [elx 37 elw 17 0 0.35 1 0.35] \
-;      [elx 37 elw 17 0 0 1 0]
 set tcp.meter.inputlabel.color [0]
 set tcp.meter.inputlabelbox.color [0]
 set tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[0]
@@ -459,24 +446,9 @@ make_elx elx 114
 make_elw elw 194
 
 set tcp.volume.fadermode [1]
-set tcp.volume h<24 [elx -1 45 23 0 0 0 0] \
-    h<47 [elx 38 45 23 0 0.5 0 0.5] \
-    h<77 [elx 49 elw 22 0 0.5 1 0.5] \
+set tcp.volume h>=47 h<77 [elx 49 elw 22 0 0.5 1 0.5] \
     h<100 [elx 34 elw 22 0 0.35 1 0.35] \
       [elx 34 elw 22 0 0 1 0]
-
-make_elx elx 36
-make_elx elx2 114
-make_elw elw 194
-
-set tcp.volume.label h<24 [elx -1 45 23 0 0 0 0] \
-    h<47 [elx 38 45 23 0 0.5 0 0.5] \
-    h<77 [elx2 49 elw 22 0 0.5 1 0.5] \
-    h<100 [elx2 34 elw 22 0 0.35 1 0.35] \
-      [elx2 34 elw 22 0 0 1 0]
-set tcp.volume.label.color [127 153 179]
-set tcp.volume.label.font [16]
-set tcp.volume.label.margin h<47 [1 3 0 0 0.5] [1 3 7 0 1]
 
 EndLayout
 
