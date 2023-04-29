@@ -2079,7 +2079,7 @@ set master.mcp.extmixer.mode                    [0]
   set master.mcp.fxparm.margin                  [2 0 4 0 0]
 
 
-Layout "ma - Master (label bottom)" "label bottom"
+Layout "ma - Master (label bottom)" "mcp lb"
 
 set master.mcp.label                            [3 341 119 25 0 1 0 1]
 
