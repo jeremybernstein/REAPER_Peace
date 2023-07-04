@@ -943,8 +943,8 @@ set mcp.fxbyp                           [66 32 13 22 0 0 0 0]
 set mcp.volume.label                    [4 108 49 20 0 0 0 0]
 set mcp.volume                          [4 128 49 189 0 0 0 1]
 
-set mcp_pan_yp1 trackpanmode==6 51 38
-set mcp_wid_yp1 trackpanmode==6 71 58
+set mcp_pan_yp1 trackpanmode==6 40 38
+set mcp_wid_yp1 trackpanmode==6 60 58
 
 set mcp.pan                             [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
 set mcp.pan.label                       [4 32 45 22 0 0 0 0]
@@ -1120,8 +1120,8 @@ set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
 
 set mcp_panwid_xp1 trackpanmode==6 3 7
-set mcp_pan_yp1 trackpanmode==6 51 38
-set mcp_wid_yp1 trackpanmode==6 71 58
+set mcp_pan_yp1 trackpanmode==6 40 38
+set mcp_wid_yp1 trackpanmode==6 60 58
 
 set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
@@ -1325,8 +1325,8 @@ set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
 
 set mcp_panwid_xp1 trackpanmode==6 3 7
-set mcp_pan_yp1 trackpanmode==6 77 64
-set mcp_wid_yp1 trackpanmode==6 98 85
+set mcp_pan_yp1 trackpanmode==6 66 64
+set mcp_wid_yp1 trackpanmode==6 87 85
 
 set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
@@ -1526,8 +1526,8 @@ set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
 
 set mcp_panwid_xp1 trackpanmode==6 3 7
-set mcp_pan_yp1 trackpanmode==6 77 64
-set mcp_wid_yp1 trackpanmode==6 98 85
+set mcp_pan_yp1 trackpanmode==6 66 64
+set mcp_wid_yp1 trackpanmode==6 87 85
 
 set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
@@ -1723,8 +1723,8 @@ set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
 
 set mcp_panwid_xp1 trackpanmode==6 3 7
-set mcp_pan_yp1 trackpanmode==6 51 38
-set mcp_wid_yp1 trackpanmode==6 71 58
+set mcp_pan_yp1 trackpanmode==6 40 38
+set mcp_wid_yp1 trackpanmode==6 60 58
 
 set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
@@ -1923,8 +1923,8 @@ set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
 
 set mcp_panwid_xp1 trackpanmode==6 3 7
-set mcp_pan_yp1 trackpanmode==6 51 38
-set mcp_wid_yp1 trackpanmode==6 72 58
+set mcp_pan_yp1 trackpanmode==6 40 38
+set mcp_wid_yp1 trackpanmode==6 61 58
 
 set mcp.pan                              [mcp_panwid_xp1 mcp_pan_yp1 mcp_panwid_wid mcp_panwid_hgt 0 0 0 0]
   set mcp.pan.fadermode                  [1]
