@@ -826,7 +826,7 @@ set envcp.bypass h<48 [388 40 11 21 1 0.5 1 0.5] [388 14 11 21 1 0 1 0]
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [83 370 0 260]
 
 set mcp.label                            [4 12 75 25 0 0 0 0]
@@ -882,9 +882,8 @@ set mcp.solo                             [56 141 23 21 0 0 0 0]
 
 set mcp.recarm                           [56 306 23 22 0 1 0 1]
 
-set mcp.recmode                          [56 289 23 18 0 1 0 1]
-
-set mcp.recmon                           [56 270 23 19 0 1 0 1]
+set mcp.recmon                           [56 289 23 19 0 1 0 1]
+set mcp.recmode                          [56 270 23 19 0 1 0 1]
 
 set mcp.fxin                             [56 249 23 21 0 1 0 1]
 ;set mcp.fxin                             h>220 h<285 [0]
@@ -963,8 +962,8 @@ set mcp.meter                           [6 128 26 186 0 0 0 1] ; TODO clipping
 set mcp.mute                            [56 108 23 22 0 0 0 0]
 set mcp.solo                            [56 130 23 21 0 0 0 0]
 set mcp.recarm                          [56 295 23 22 0 1 0 1]
-set mcp.recmode                         [56 278 23 18 0 1 0 1]
-set mcp.recmon                          [56 259 23 19 0 1 0 1]
+set mcp.recmon                          [56 278 23 19 0 1 0 1]
+set mcp.recmode                         [56 259 23 19 0 1 0 1]
 set mcp.fxin                            [56 238 23 21 0 1 0 1]
 
 set mcp.recinput                        folderstate=1 [6 322 76 18 0 1 0 1] folderstate<0 [1 322 76 18 0 1 0 1] folderdepth>0 [1 322 81 18 0 1 0 1] [6 322 71 18 0 1 0 1]
@@ -1001,7 +1000,7 @@ Layout "ba - Standard Sidebar" "mcp sidebar"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin  mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [83 370 0 260]
 
 set mcp.label                            [-85 12 164 25 0 0 0 0]
@@ -1057,9 +1056,8 @@ set mcp.solo                             [56 141 23 21 0 0 0 0]
 
 set mcp.recarm                           [56 306 23 22 0 1 0 1]
 
-set mcp.recmode                          [56 289 23 18 0 1 0 1]
-
-set mcp.recmon                           [56 270 23 19 0 1 0 1]
+set mcp.recmon                           [56 289 23 19 0 1 0 1]
+set mcp.recmode                          [56 270 23 19 0 1 0 1]
 
 set mcp.fxin                             [56 249 23 21 0 1 0 1]
 
@@ -1102,7 +1100,7 @@ Layout "Lba - Standard Sidebar (label bottom)" "mcp sidebar lb"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [83 370 0 260]
 
 set mcp.label                            [-85 341 164 25 0 1 0 1]
@@ -1158,9 +1156,8 @@ set mcp.solo                             [56 130 23 21 0 0 0 0]
 
 set mcp.recarm                           [56 295 23 22 0 1 0 1]
 
-set mcp.recmode                          [56 278 23 18 0 1 0 1]
-
-set mcp.recmon                           [56 259 23 19 0 1 0 1]
+set mcp.recmon                           [56 278 23 19 0 1 0 1]
+set mcp.recmode                          [56 259 23 19 0 1 0 1]
 
 set mcp.fxin                             [56 238 23 21 0 1 0 1]
 
@@ -1204,7 +1201,7 @@ Layout "ca - Small" "mcp small"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [54 370 0 260]
 
 set mcp.label                            [4 12 46 25 0 0 0 0]
@@ -1303,7 +1300,7 @@ Layout "Lca - Small (label bottom)" "mcp small lb"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [54 370 0 260]
 
 set mcp.label                            [4 341 46 25 0 1 0 1]
@@ -1402,7 +1399,7 @@ Layout "da - Small Sidebar" "mcp small sidebar"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [54 370 0 260]
 
 set mcp.label                            [-67 12 117 25 0 0 0 0]
@@ -1503,7 +1500,7 @@ Layout "Lda - Small Sidebar (label bottom)" "mcp small sidebar lb"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [54 370 0 260]
 
 set mcp.label                            [-67 341 117 25 0 1 0 1]
@@ -1618,7 +1615,7 @@ Layout "ea - Large" "mcp large"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [109 370 0 260]
 
 set mcp.label                            [4 12 101 25 0 0 0 0]
@@ -1674,9 +1671,9 @@ set mcp.solo                             [82 65 23 21 0 0 0 0]
 
 set mcp.recarm                           [82 306 23 22 0 1 0 1]
 
-set mcp.recmode                          [82 289 23 18 0 1 0 1]
+set mcp.recmon                           [82 289 23 18 0 1 0 1]
 
-set mcp.recmon                           [82 270 23 19 0 1 0 1]
+set mcp.recmode                          [82 270 23 19 0 1 0 1]
 
 set mcp.fxin                             [82 249 23 21 0 1 0 1]
 
@@ -1717,7 +1714,7 @@ Layout "Lea - Large (label bottom)" "mcp large lb"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [109 370 0 260]
 
 set mcp.label                            [4 341 101 25 0 1 0 1]
@@ -1773,9 +1770,9 @@ set mcp.solo                             [82 54 23 21 0 0 0 0]
 
 set mcp.recarm                           [82 295 23 22 0 1 0 1]
 
-set mcp.recmode                          [82 278 23 18 0 1 0 1]
+set mcp.recmon                           [82 278 23 18 0 1 0 1]
 
-set mcp.recmon                           [82 259 23 19 0 1 0 1]
+set mcp.recmode                          [82 259 23 19 0 1 0 1]
 
 set mcp.fxin                             [82 238 23 21 0 1 0 1]
 
@@ -1816,7 +1813,7 @@ Layout "fa - Large Sidebar" "mcp large sidebar"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter
 set mcp.size                             [109 370 0 260]
 
 set mcp.label                            [-97 12 202 25 0 0 0 0]
@@ -1872,9 +1869,9 @@ set mcp.solo                             [82 65 23 21 0 0 0 0]
 
 set mcp.recarm                           [82 306 23 22 0 1 0 1]
 
-set mcp.recmode                          [82 289 23 18 0 1 0 1]
+set mcp.recmon                           [82 289 23 18 0 1 0 1]
 
-set mcp.recmon                           [82 270 23 19 0 1 0 1]
+set mcp.recmode                          [82 270 23 19 0 1 0 1]
 
 set mcp.fxin                             [82 249 23 21 0 1 0 1]
 
@@ -1917,7 +1914,7 @@ Layout "Lfa - Large Sidebar (label bottom)" "mcp large sidebar lb"
 
 clear mcp.*
 
-front                                    mcp.recarm mcp.recmode mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
+front                                    mcp.recarm mcp.recmode mcp.recmon mcp.fxin mcp.volume.label mcp.env mcp.phase mcp.meter mcp.folder
 set mcp.size                             [109 370 0 260]
 
 set mcp.label                            [-97 341 202 25 0 1 0 1]
@@ -1973,9 +1970,9 @@ set mcp.solo                             [82 54 23 21 0 0 0 0]
 
 set mcp.recarm                           [82 295 23 22 0 1 0 1]
 
-set mcp.recmode                          [82 278 23 18 0 1 0 1]
+set mcp.recmon                           [82 278 23 18 0 1 0 1]
 
-set mcp.recmon                           [82 259 23 19 0 1 0 1]
+set mcp.recmode                          [82 259 23 19 0 1 0 1]
 
 set mcp.fxin                             [82 238 23 21 0 1 0 1]
 
