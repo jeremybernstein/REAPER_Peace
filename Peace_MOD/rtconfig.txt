@@ -32,6 +32,7 @@ tcp_folderindent 14
 define_parameter Peace_MOD 'Peace_MOD' 1
 define_parameter tcp_red_label 'TCP Red Label when Record-Enabled' 0 0 1
 define_parameter mcp_red_label 'MCP Red Label when Record-Enabled' 0 0 1
+define_parameter tcp_align_folders 'TCP Align Folder Controls' 0 0 1
 define_parameter tcp_send_columns 'TCP Show FX/Send Columns' 0 0 1
 define_parameter tcp_send_pos 'TCP Send Position (Left/Right)' 0 0 1
 define_parameter tcp_meter_width 'TCP Meter Width' 1 0 4
@@ -101,13 +102,16 @@ endmacro
   set mcp.extmixer.position    - - [lp tp sbar_w h] [0 0 0 mcp.label{h}] + [0 0 0 bp] [0 0 0 tp]
 endmacro
 
+def align_folders_margin tcp_align_folders{0}==1 * - maxfolderdepth folderdepth 14 0
+def left_margin + align_folders_margin 2
+
 macro make_elx name val
-  set name val
+  set name + val align_folders_margin
   set name tcp_send_pos==0 showfx{0}==1 + name 82
 endmacro
 
 macro make_elw name val
-  set name val
+  set name - val align_folders_margin
   set name showfx{0}==0 + name 82
 endmacro
 
@@ -143,7 +147,7 @@ colorsmart              tcp.trackidx.color 230 230 230 0
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
 set tcp.foldercomp      + inv_m * scalef [-2 2 23 17]
-set tcp.folder          h<36 [0] + fld_m + inv_margin [1 86 30 12 0 1 0 1]
+set tcp.folder          h<36 [0] + fld_m + inv_m [1 86 30 12 0 1 0 1]
 
 set tcp.meter [399 2 tcp_meterw 96 1 0 1 1]
 set tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[220 220 220]
@@ -167,8 +171,9 @@ set tcp.fxparm.margin [2 0 2 0 0.5]
 set fxx 33
 set fxx tcp_send_pos==1 showfx{0}==1 - w 97 33
 set fxx tcp_send_pos==1 showfx{0}==1 - fxx - tcp_meterw 12
+set fxw + 81 align_folders_margin
 
-set tcp.fxparm w<325 [0] [fxx 2 81 magic_h 0 0 0 1]
+set tcp.fxparm w<325 [0] [fxx 2 fxw magic_h 0 0 0 1]
 
 make_elx elx 36
 make_elw elw 272
@@ -410,7 +415,9 @@ set tcp.size h<47 [sizew 100 254 0] [402 100 254 0]
 set fxx 33
 set fxx tcp_send_pos==1 showfx{0}==1 - w h<47 97 86 33
 set fxx h<47 tcp_send_pos==1 showfx{0}==1 - fxx - tcp_meterw 12
-set tcp.fxparm w<325 [0] [fxx 2 81 magic_h 0 0 0 1]
+set fxw + 81 align_folders_margin
+
+set tcp.fxparm w<325 [0] [fxx 2 fxw magic_h 0 0 0 1]
 
 make_elx elx 36
 make_elw elw 272
@@ -473,7 +480,7 @@ colorsmart              tcp.trackidx.color 230 230 230 0
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
 set tcp.foldercomp      + inv_m * scalef [-2 2 23 17]
-set tcp.folder          h<36 [0] + fld_m + inv_margin [1 86 30 12 0 1 0 1]
+set tcp.folder          h<36 [0] + fld_m + inv_m [1 86 30 12 0 1 0 1]
 
 set tcp.meter [399 2 tcp_meterw 96 1 0 1 1]
 set tcp.meter.inputlabel.color [0]
@@ -561,7 +568,7 @@ colorsmart              tcp.trackidx.color 230 230 230 0
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
 set tcp.foldercomp      + inv_m * scalef [-2 2 23 17]
-set tcp.folder          h<36 [0] + fld_m + inv_margin [1 86 30 12 0 1 0 1]
+set tcp.folder          h<36 [0] + fld_m + inv_m [1 86 30 12 0 1 0 1]
 
 set tcp.meter [399 2 tcp_meterw 96 1 0 1 1]
 set tcp.meter.inputlabel.color [0]
@@ -640,8 +647,9 @@ set master.tcp.fxparm.margin [2 0 2 0 0.5]
 set fxx 33
 set fxx tcp_send_pos==1 showfx{0}==1 - w 97 33
 set fxx tcp_send_pos==1 showfx{0}==1 - fxx - tcp_meterw 12
+set fxw + 81 align_folders_margin
 
-set master.tcp.fxparm w<325 [0] [fxx 2 81 magic_h 0 0 0 1]
+set master.tcp.fxparm w<325 [0] [fxx 2 fxw magic_h 0 0 0 1]
 
 make_elx elx 36
 make_elw elw 272
