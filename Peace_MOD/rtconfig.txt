@@ -2,32 +2,38 @@
 
 version 5
 use_pngs 1
+use_overlays 1
+
 tcp_showborders 0
 mcp_showborders 0
 transport_showborders 0
+
 tcp_vupeakwidth 2
 mcp_vupeakheight 2
 mcp_mastervupeakheight 4
 tcp_master_minheight 29
 mcp_altmeterpos 0
-use_overlays 1
+mcp_min_height 266
+mcp_voltext_flags 5 5
+tcp_voltext_flags 12
+tcp_heights 4 21 51 80   ; supercollapsed, collapsed, small(norecarm), recarm size
+tcp_folderindent 14
+
+;tinttcp 298
+;peaksedges 0
+
 tcp_vol_zeroline 95262626
-tcp_pan_zeroline 66000000 
+tcp_pan_zeroline 66000000
 tcp_width_zeroline 66000000
 mcp_vol_zeroline 95262626
-mcp_pan_zeroline 85000000 
+mcp_pan_zeroline 85000000
 mcp_width_zeroline 66000000
 trans_speed_zeroline 85000000
 gen_vol_zeroline FF7a7a7a
 gen_pan_zeroline FF282828
 item_volknobfg 85282828 85282828 85282828
-mcp_min_height 266
-mcp_voltext_flags 5 5
-tcp_voltext_flags 12 
-;tinttcp 298
-;peaksedges 0
-tcp_heights 4 21 51 80   ; supercollapsed, collapsed, small(norecarm), recarm size
-tcp_folderindent 14
+
+;warnings all
 
 define_parameter Peace_MOD 'Peace_MOD' 1
 define_parameter tcp_red_label 'TCP Red Label when Record-Enabled' 0 0 1
@@ -442,7 +448,7 @@ set tcp.meter.inputlabel.color [0]
 set tcp.meter.inputlabelbox.color [0]
 set tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[0]
 
-set tcp.meter.scale.color.unlit.top [0] [0]
+set tcp.meter.scale.color.unlit.top [0]
 set tcp.meter.scale.color.unlit.bottom [0]
 set tcp.meter.scale.color.lit.top [0]
 set tcp.meter.scale.color.lit.bottom [0]
@@ -487,7 +493,7 @@ set tcp.meter.inputlabel.color [0]
 set tcp.meter.inputlabelbox.color [0]
 set tcp.meter.readout.color [127 153 0 255 48 48 48 255][0]
 
-set tcp.meter.scale.color.unlit.top [0] [0]
+set tcp.meter.scale.color.unlit.top [0]
 set tcp.meter.scale.color.unlit.bottom [0]
 set tcp.meter.scale.color.lit.top [0]
 set tcp.meter.scale.color.lit.bottom [0]
@@ -575,7 +581,7 @@ set tcp.meter.inputlabel.color [0]
 set tcp.meter.inputlabelbox.color [0]
 set tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[0]
 
-set tcp.meter.scale.color.unlit.top [0] [0]
+set tcp.meter.scale.color.unlit.top [0]
 set tcp.meter.scale.color.unlit.bottom [0]
 set tcp.meter.scale.color.lit.top [0]
 set tcp.meter.scale.color.lit.bottom [0]
@@ -621,7 +627,7 @@ clear master.tcp.*
 
 set master.tcp.size [sizew 100 254 0]
 
-front master.tcp.fx master.tcp.fxbyp master.tcp.io master.tcp.fxparm master.tcp.solo master.tcp.mute master.tcp.env master.tcp.label master.tcp.fxin master.tcp.volume.label master.tcp.volume master.tcp.pan.label master.tcp.pan master.tcp.width.label master.tcp.width master.tcp.meter
+front master.tcp.fx master.tcp.fxbyp master.tcp.io master.tcp.fxparm master.tcp.solo master.tcp.mute master.tcp.env master.tcp.label master.tcp.volume.label master.tcp.volume master.tcp.pan.label master.tcp.pan master.tcp.width.label master.tcp.width master.tcp.meter
 
 set master.tcp.margin +:maxfolderdepth:1 [0 0 0 0] +:folderdepth:1 [0 0 0 0]
 set inv_m * [-1] master.tcp.margin
@@ -2204,7 +2210,7 @@ set trans.sel.font      [13]
 
 set element_left w<1312 + right_side 265 + right_side 550
 set trans.rate          w<970 [0] ?trans_flags&2 [element_left 4 100 27 0 0.5 0 0.5]
-set trans.rate.margin   [70 0 0 0]
+set trans.rate.margin   [65 0 0 0] ; this is hiding 'Rate:' behind the control
 set trans.rate.color    [240 240 240]
 set trans.rate.font     [13]
 
