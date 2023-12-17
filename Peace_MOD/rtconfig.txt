@@ -254,12 +254,14 @@ make_elx elx2 114
 make_elx elx3 135
 make_elx elx4 164
 make_elw elw 149
+make_elw elw3 128
+make_elw elw4 99
 
 set tcp.volume.fadermode h<47 [1] [0]
 set tcp.volume h<24 [elx -1 27 23 0 0 0 0] \
     h<47 [elx 38 27 23 0 0.5 0 0.5] \
-    h<77 showfx{0}==1 w<325 [elx2 50 231 21 0 0.5 1 0.5] w<450 [elx2 49 149 22 0 0.5 1 0.5] w<500 [elx3 49 128 22 0 0.5 1 0.5] [elx4 49 99 22 0 0.5 1 0.5] \
-      w<350 [elx2 50 231 21 0 0.5 1 0.5] w<400 [elx3 50 210 21 0 0.5 1 0.5] [elx4 50 181 21 0 0.5 1 0.5] \
+    h<77 showfx{0}==1 w<325 [elx2 50 elw 21 0 0.5 1 0.5] w<450 [elx2 49 elw 22 0 0.5 1 0.5] w<500 [elx3 49 elw3 22 0 0.5 1 0.5] [elx4 49 elw4 22 0 0.5 1 0.5] \
+      w<350 [elx2 50 elw 21 0 0.5 1 0.5] w<400 [elx3 50 elw3 21 0 0.5 1 0.5] [elx4 50 elw4 21 0 0.5 1 0.5] \
     h<100 [elx2 34 elw 22 0 0.35 1 0.35] \
       [elx2 34 elw 22 0 0 1 0]
 
@@ -437,10 +439,12 @@ make_elx elx2 116
 make_elx elx3 137
 make_elx elx4 166
 make_elw elw 149
+make_elw elw3 128
+make_elw elw4 99
 
 set tcp.meter h<47 [400 2 tcp_meterw 96 1 0 1 1] \
-    h<77 showfx{0}==1 w<325 [elx2 52 231 17 0 0.5 1 0.5] w<450 [elx2 52 149 17 0 0.5 1 0.5] w<500 [elx3 52 128 17 0 0.5 1 0.5] [elx4 52 99 17 0 0.5 1 0.5] \
-      w<350 [elx2 52 231 17 0 0.5 1 0.5] w<400 [elx3 52 210 17 0 0.5 1 0.5] [elx4 52 181 17 0 0.5 1 0.5] \
+    h<77 showfx{0}==1 w<325 [elx2 52 elw 17 0 0.5 1 0.5] w<450 [elx2 52 elw 17 0 0.5 1 0.5] w<500 [elx3 52 elw3 17 0 0.5 1 0.5] [elx4 52 elw4 17 0 0.5 1 0.5] \
+      w<350 [elx2 52 elw 17 0 0.5 1 0.5] w<400 [elx3 52 elw3 17 0 0.5 1 0.5] [elx4 52 elw4 17 0 0.5 1 0.5] \
     h<100 [elx2 36 elw 18 0 0.35 1 0.35] \
       [elx2 36 elw 18 0 0 1 0]
 
