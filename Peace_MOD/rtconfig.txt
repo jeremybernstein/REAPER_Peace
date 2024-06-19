@@ -228,7 +228,7 @@ set tcp.label h<24 showfx{0}==1 w<325 [elx -1 elw 23 0 0 1 0] w<450 [elx5 -1 elw
 
 colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 
-set tcp.label.font [0]
+set tcp.label.font ?track_selected [3] [0]
 set tcp.label.font showfx{0}==0 w<350 [-1]
 set tcp.label.font showfx{0}==1 w<500 [-1]
 set tcp.label.margin [2 3 2 1 0.5]
@@ -273,7 +273,7 @@ set tcp.volume.label h<24 [elx -1 45 23 0 0 0 0] \
     h<47 [elx 38 45 23 0 0.5 0 0.5] \
     h<77 [elx2 49 46 22 1 0.5 1 0.5] \
     h<100 [elx2 34 46 22 1 0.35 1 0.35] [elx2 34 46 22 1 0 1 0]
-set tcp.volume.label.color [127 153 179]
+set tcp.volume.label.color [176 176 211]
 set tcp.volume.label.font [16]
 set tcp.volume.label.margin [1 3 0 0 0.5]
 
@@ -514,7 +514,7 @@ set tcp.label h<24 w<375 [135 -1 210 23 0 0 1 0] [213 -1 132 23 0 0 1 0] \
 
 colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 
-set tcp.label.font [0]
+set tcp.label.font ?track_selected [3] [0]
 set tcp.label.margin [3 3 2 1 0.5]
 
 set elx 345
@@ -529,8 +529,7 @@ set tcp.volume h<24 [46 -1 27 23 0 0 0 0] \
     h<47 [46 38 27 23 0 0.5 0 0.5] [46 13 27 23 0 0 0 0]
 set tcp.volume.label h<24 [36 -1 45 23 0 0 0 0] \
     h<47 [36 38 45 23 0 0.5 0 0.5] [36 13 45 23 0 0 0 0]
-set tcp.volume.label.color [127 153 179]
-set tcp.volume.label.font [16]
+set tcp.volume.label.color [176 176 211]
 set tcp.volume.label.margin [1 3 0 0 0.5]
 
 set tcp_pan_hgt trackpanmode>4 22 23
@@ -596,7 +595,7 @@ set tcp.volume h<24 [46 -1 27 23 0 0 0 0] \
     h<47 [46 38 27 23 0 0.5 0 0.5] [46 13 27 23 0 0 0 0]
 set tcp.volume.label h<24 [36 -1 45 23 0 0 0 0] \
     h<47 [36 38 45 23 0 0.5 0 0.5] [36 13 45 23 0 0 0 0]
-set tcp.volume.label.color [127 153 179]
+set tcp.volume.label.color [176 176 211]
 set tcp.volume.label.font [16]
 set tcp.volume.label.margin [1 3 0 0 0.5]
 
@@ -605,7 +604,7 @@ set tcp.label h<24 [79 -1 266 23 0 0 1 0] \
 
 colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 
-set tcp.label.font [0]
+set tcp.label.font ?track_selected [3] [0]
 set tcp.label.margin [5 3 4 1 0.5]
 
 set tcp.mute h<24 [345 -1 23 23 1 0 1 0] \
@@ -694,7 +693,7 @@ set master.tcp.label h<24 [elx -1 elw 23 0 0 1 0] \
 
 colorsmart_label master.tcp.label.color 255 255 255 tcp_red_label
 
-set master.tcp.label.font [0]
+set master.tcp.label.font ?track_selected [3] [0]
 set master.tcp.label.margin [2 3 2 1 0.5]
 
 set elx 345
@@ -732,7 +731,7 @@ set master.tcp.volume.label h<24 [elx -1 45 23 0 0 0 0] \
     h<47 [elx 38 45 23 0 0.5 0 0.5] \
     h<77 [elx2 49 46 22 1 0.5 1 0.5] \
     h<100 [elx2 34 46 22 1 0.35 1 0.35] [elx2 34 46 22 1 0 1 0]
-set master.tcp.volume.label.color [127 153 179]
+set master.tcp.volume.label.color [176 176 211]
 set master.tcp.volume.label.font [16]
 set master.tcp.volume.label.margin [1 3 0 0 0.5]
 
@@ -850,14 +849,14 @@ set mcp.size                             [83 370 0 260]
 set mcp.label                            [4 12 75 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 43 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 119 49 20 0 0 0 0]
   set mcp.volume                         [4 139 49 189 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -889,11 +888,11 @@ set mcp.env                              [25 89 54 23 0 0 0 0]
 
 set mcp.meter                            [6 139 26 186 0 0 0 1] ; TODO clipping
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [56 119 23 22 0 0 0 0]
 set mcp.solo                             [56 141 23 21 0 0 0 0]
@@ -1024,14 +1023,14 @@ set mcp.size                             [83 370 0 260]
 set mcp.label                            [-85 12 164 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 43 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 119 49 20 0 0 0 0]
   set mcp.volume                         [4 139 49 189 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1063,11 +1062,11 @@ set mcp.env                              [25 89 54 23 0 0 0 0]
 
 set mcp.meter                            [7 139 26 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [56 119 23 22 0 0 0 0]
 set mcp.solo                             [56 141 23 21 0 0 0 0]
@@ -1124,14 +1123,14 @@ set mcp.size                             [83 370 0 260]
 set mcp.label                            [-85 341 164 25 0 1 0 1]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 32 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 32 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 108 49 20 0 0 0 0]
 set mcp.volume                           [4 128 49 189 0 0 0 1]
-set mcp.volume.label.color               [127 153 179]
+set mcp.volume.label.color               [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1163,11 +1162,11 @@ set mcp.env                              [25 78 54 23 0 0 0 0]
 
 set mcp.meter                            [7 128 26 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [56 108 23 22 0 0 0 0]
 set mcp.solo                             [56 130 23 21 0 0 0 0]
@@ -1225,7 +1224,7 @@ set mcp.size                             [54 370 0 260]
 set mcp.label                            [4 12 46 25 0 0 0 0]
   set mcp.label.margin                   [2 0 2 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.mute                             [4 43 24 23 0 0 0 0]
 set mcp.solo                             [28 43 22 23 0 0 0 0]
@@ -1235,16 +1234,16 @@ set mcp.fx                               [4 127 24 20 0 0 0 0]
 
 set mcp.volume.label                     h<300 [0 149 54 20 0 0 0 0] [0 175 54 20 0 0 0 0]
   set mcp.volume                         h<300 [4 169 46 176 0 0 0 1] h<350 [4 195 46 150 0 0 0 1] [4 195 46 89 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 8 0 0 0.5]
 
 set mcp.meter                            h<300 [6 169 25 174 0 0 0 1] h<350 [6 200 25 144 0 0 0 1] [6 200 25 83 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
@@ -1324,7 +1323,7 @@ set mcp.size                             [54 370 0 260]
 set mcp.label                            [4 341 46 25 0 1 0 1]
   set mcp.label.margin                   [2 0 2 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.mute                             [4 32 24 23 0 0 0 0]
 set mcp.solo                             [28 32 22 23 0 0 0 0]
@@ -1334,16 +1333,16 @@ set mcp.fx                               [4 116 24 20 0 0 0 0]
 
 set mcp.volume.label                     h<300 [0 138 54 20 0 0 0 0] [0 164 54 20 0 0 0 0]
   set mcp.volume                         h<300 [4 158 46 176 0 0 0 1] h<350 [4 184 46 150 0 0 0 1] [4 184 46 89 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 8 0 0 0.5]
 
 set mcp.meter                            h<300 [6 158 25 174 0 0 0 1] h<350 [6 189 25 144 0 0 0 1] [6 189 25 83 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
@@ -1423,7 +1422,7 @@ set mcp.size                             [54 370 0 260]
 set mcp.label                            [-67 12 117 25 0 0 0 0]
   set mcp.label.margin                   [2 0 2 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.mute                             [4 43 24 23 0 0 0 0]
 set mcp.solo                             [28 43 22 23 0 0 0 0]
@@ -1433,16 +1432,16 @@ set mcp.fx                               [4 127 24 20 0 0 0 0]
 
 set mcp.volume.label                     h<300 [0 149 54 20 0 0 0 0] [0 175 54 20 0 0 0 0]
   set mcp.volume                         h<300 [4 169 46 159 0 0 0 1] h<350 [4 195 46 133 0 0 0 1] [4 195 46 89 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 8 0 0 0.5]
 
 set mcp.meter                            h<300 [6 169 25 158 0 0 0 1] h<350 [6 200 25 126 0 0 0 1] [6 200 25 83 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
 set mcp_panwid_wid trackpanmode==6 46 39
@@ -1524,7 +1523,7 @@ set mcp.size                             [54 370 0 260]
 set mcp.label                            [-67 341 117 25 0 1 0 1]
   set mcp.label.margin                   [2 0 2 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.mute                             [4 32 24 23 0 0 0 0]
 set mcp.solo                             [28 32 22 23 0 0 0 0]
@@ -1534,21 +1533,21 @@ set mcp.fx                               [4 116 24 20 0 0 0 0]
 
 ;set mcp.volume.label                     [4 169 46 20 0 0 0 0]
 ;  set mcp.volume                         h<350 [4 189 46 128 0 0 0 1] [4 189 46 84 0 0 0 1]
-;  set mcp.volume.label.color             [127 153 179]
+;  set mcp.volume.label.color             [176 176 211]
 ;  set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp.volume.label                     h<300 [0 138 54 20 0 0 0 0] [0 164 54 20 0 0 0 0]
   set mcp.volume                         h<300 [4 158 46 159 0 0 0 1] h<350 [4 184 46 133 0 0 0 1] [4 184 46 89 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 8 0 0 0.5]
 
 set mcp.meter                            h<300 [6 158 25 157 0 0 0 1] h<350 [6 189 25 126 0 0 0 1] [6 189 25 83 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1580,11 +1579,11 @@ set mcp.env                              h<300 [0] [28 139 22 23 0 0 0 0]
 
 ;set mcp.meter                            h<350 [6 188 25 127 0 0 0 1] [6 189 25 82 0 0 0 1]
 ;  set mcp.meter.vu.div                   [1 1]
-;  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+;  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[176 176 211 255 48 48 48 255]
 ;  set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
 ;  set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-;  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-;  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+;  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+;  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.recarm                           h<350 [0] [27 297 23 20 0 1 0 1]
 
@@ -1639,14 +1638,14 @@ set mcp.size                             [109 370 0 260]
 set mcp.label                            [4 12 101 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 43 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 119 75 20 0 0 0 0]
   set mcp.volume                         [4 139 75 189 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1678,11 +1677,11 @@ set mcp.env                              [25 89 80 23 0 0 0 0]
 
 set mcp.meter                            [7 139 44 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [82 43 23 22 0 0 0 0]
 set mcp.solo                             [82 65 23 21 0 0 0 0]
@@ -1738,14 +1737,14 @@ set mcp.size                             [109 370 0 260]
 set mcp.label                            [4 341 101 25 0 1 0 1]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 32 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 32 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 108 75 20 0 0 0 0]
   set mcp.volume                         [4 128 75 189 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1777,11 +1776,11 @@ set mcp.env                              [25 78 80 23 0 0 0 0]
 
 set mcp.meter                            [7 128 44 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [82 32 23 22 0 0 0 0]
 set mcp.solo                             [82 54 23 21 0 0 0 0]
@@ -1837,14 +1836,14 @@ set mcp.size                             [109 370 0 260]
 set mcp.label                            [-97 12 202 25 0 0 0 0]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 43 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 43 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 119 75 20 0 0 0 0]
   set mcp.volume                         [4 139 75 189 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1876,11 +1875,11 @@ set mcp.env                              [25 89 80 23 0 0 0 0]
 
 set mcp.meter                            [7 139 44 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [82 43 23 22 0 0 0 0]
 set mcp.solo                             [82 65 23 21 0 0 0 0]
@@ -1938,14 +1937,14 @@ set mcp.size                             [109 370 0 260]
 set mcp.label                            [-97 341 202 25 0 1 0 1]
   set mcp.label.margin                   [4 0 4 0 0.3]
   colorsmart_label mcp.label.color 222 222 222 mcp_red_label
-  set mcp.label.font [10]
+  set mcp.label.font ?track_selected [5] [1]
 
 set mcp.fx                               [49 32 17 22 0 0 0 0]
 set mcp.fxbyp                            [66 32 13 22 0 0 0 0]
 
 set mcp.volume.label                     [4 108 75 20 0 0 0 0]
   set mcp.volume                         [4 128 75 189 0 0 0 1]
-  set mcp.volume.label.color             [127 153 179]
+  set mcp.volume.label.color             [176 176 211]
   set mcp.volume.label.margin            [0 4 0 0 0.5]
 
 set mcp_panwid_hgt trackpanmode==6 17 21
@@ -1977,11 +1976,11 @@ set mcp.env                              [25 78 80 23 0 0 0 0]
 
 set mcp.meter                            [7 128 44 186 0 0 0 1]
   set mcp.meter.vu.div                   [1 1]
-  set mcp.meter.readout.color            [127 153 0 255 48 48 48 255] ;[127 153 179 255 48 48 48 255]
+  set mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
   set mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set mcp.mute                             [82 32 23 22 0 0 0 0]
 set mcp.solo                             [82 54 23 21 0 0 0 0]
@@ -2047,6 +2046,7 @@ set master.mcp.size                             [125 370 0 260]
 
 set master.mcp.label                            [3 12 119 25 0 0 0 0]
   colorsmart_label master.mcp.label.color 230 230 230 mcp_red_label
+set master.mcp.label.font ?track_selected [5] [1]
 
 set mcp_panwid_hgt trackpanmode==6 21 26
 set mcp_panwid_wid trackpanmode==6 65 54
@@ -2087,16 +2087,16 @@ set master.mcp.menubutton                       [98 89 23 23 0 0 0 0]
 set master.mcp.meter                            [11 133 81 228 0 0 0 1]
   set master.mcp.meter.vu.div                   [5]
   set master.mcp.meter.vu.rmsdiv                [6]
-  set master.mcp.meter.readout.color            [127 153 0 255 127 255 255 255] ;[127 153 179 255 48 48 48 255]
-  set master.mcp.meter.rmsreadout.color         [127 153 0 255 127 153 0 255] ;[127 153 179 255 48 48 48 255]
+  set master.mcp.meter.readout.color            [1 254 46 255 48 48 48 255] ; [127 153 0 255 48 48 48 255]
+  set master.mcp.meter.rmsreadout.color         [1 254 46 255 48 48 48 255] ;[127 153 0 255 127 153 0 255]
   set master.mcp.meter.scale.color.lit.bottom   [255 255 255 255 48 48 48 255]
   set master.mcp.meter.scale.color.lit.top      [255 255 255 255 48 48 48 255]
-  set master.mcp.meter.scale.color.unlit.bottom [127 153 179 255 48 48 48 255]
-  set master.mcp.meter.scale.color.unlit.top    [127 153 179 255 48 48 48 255]
+  set master.mcp.meter.scale.color.unlit.bottom [176 176 211 255 48 48 48 255]
+  set master.mcp.meter.scale.color.unlit.top    [176 176 211 255 48 48 48 255]
 
 set master.mcp.volume.label                     [4 119 117 20 0 0 0 0]
   set master.mcp.volume                         [4 137 117 228 0 0 0 1]
-  set master.mcp.volume.label.color             [127 153 179]
+  set master.mcp.volume.label.color             [176 176 211]
   set master.mcp.volume.label.margin            [3 3 20 3 0.5]
 
 set master.mcp.extmixer.mode                    [0]
@@ -2178,10 +2178,10 @@ set trans.automode         w<780 ?trans_flags&2 [0] [element_left 8 54 38 0 0.5 
 set element_left - stat_left ?trans_flags&4 118 70
 set trans.bpm.tap        w<690 [0] [element_left 27 54 19 0 0.5 0 0.5]
 set trans.bpm.tap.color    [240 240 240]
-set trans.bpm.tap.margin     [5 4 5 6 0.5]
+set trans.bpm.tap.margin     [5 4 5 2 0.5]
 set trans.bpm.edit         w<690 [0] [element_left 8 54 19 0 0.5 0 0.5]
 set trans.bpm.edit.color     [240 240 240]
-set trans.bpm.edit.margin    [5 6 5 4 0.5]
+set trans.bpm.edit.margin    [5 6 5 2 0.5]
 
 set element_left - stat_left 60
 set trans.curtimesig    w<690 [0] ?trans_flags&4 [element_left 8 50 38 0 0.5 0 0.5] [0]
