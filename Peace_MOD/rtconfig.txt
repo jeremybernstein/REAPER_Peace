@@ -42,6 +42,7 @@ define_parameter tcp_align_folders 'TCP Align Folder Controls' 0 0 1
 define_parameter tcp_send_columns 'TCP Show FX/Send Columns' 0 0 1
 define_parameter tcp_send_pos 'TCP Send Position (Left/Right)' 0 0 1
 define_parameter tcp_meter_width 'TCP Meter Width' 1 0 4
+define_parameter trackidx_colorsmart 'TCP Tinting Is On' 1 0 1
 
 ; -------------------------- WALTER --------------------------
 ; font #1 - MCP Track Numbers
@@ -54,11 +55,9 @@ define_parameter tcp_meter_width 'TCP Meter Width' 1 0 4
 
 ; Global stuff : here are some macros, to be used later
 
-macro colorsmart element r g b rec_red      ; element name, desired rgb, go red on recarm? ('1' yes, '0' no)
+macro colorsmart_idx element r g b tinted ; element name, desired rgb, go red on recarm? ('1' yes, '0' no)
   set luma                     + + * 0.299 [trackcolor_r] * 0.587 [trackcolor_g] * 0.114 [trackcolor_b]
-  set element                  ?trackcolor_valid luma{x}>140 [0 0 0] [255 255 255] [r g b]
-  set redness                  / [trackcolor_r] * [0.5] + + [0.1] [trackcolor_g] [trackcolor_b]
-  set element                  ?rec_red ?recarm redness{x}>2.5 [255 150 150] [255 0 0] . .
+  set element                  ?tinted ?trackcolor_valid luma{x}>140 [0 0 0] [255 255 255] [r g b] ?track_selected [255 255 255] [r g b]
 endmacro
 
 ; multiplying the trackcolor * 0.313 (the label background on the TCP) means a low luma
@@ -67,11 +66,6 @@ macro colorsmart_label element r g b rec_red      ; element name, desired rgb, g
   set element                  [r g b] ;?rec_red ?trackcolor_valid [255 255 255] [r g b] [r g b]
   set redness                  ?rec_red / [trackcolor_r] * [0.5] + + [0.1] [trackcolor_g] [trackcolor_b] .
   set element                  ?rec_red ?recarm redness{x}>2.5 [255 150 150] [255 100 100] . .
-endmacro
-
-macro colorsmart_mcp_index element r g b
-  set luma                     + + * 0.299 [trackcolor_r] * 0.587 [trackcolor_g] * 0.114 [trackcolor_b]
-  set element                  ?track_selected ?trackcolor_valid luma{x}>140 [0 0 0] [255 255 255] [r g b] [r g b]
 endmacro
 
  macro make_sidebar sbar_w lp tp rp bp  ; make a sidebar of defined width, with padding (left top right bottom)
@@ -148,7 +142,8 @@ set fld_m [0 0 0 0]
 
 set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set tcp.trackidx.margin [1861 0 0 0 0.5]
-colorsmart              tcp.trackidx.color 230 230 230 0
+colorsmart_idx          tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+set tcp.trackidx.font   ?track_selected [5] [1]
 
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
@@ -229,8 +224,8 @@ set tcp.label h<24 showfx{0}==1 w<325 [elx -1 elw 23 0 0 1 0] w<450 [elx5 -1 elw
 colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 
 set tcp.label.font ?track_selected [3] [0]
-set tcp.label.font showfx{0}==0 w<350 [-1]
-set tcp.label.font showfx{0}==1 w<500 [-1]
+set tcp.label.font showfx{0}==0 w<350 ?track_selected [5] [-1]
+set tcp.label.font showfx{0}==1 w<500 ?track_selected [5] [-1]
 set tcp.label.margin [2 3 2 1 0.5]
 
 set elx 345
@@ -485,7 +480,8 @@ set fld_m [0 0 0 0]
 
 set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set tcp.trackidx.margin [1861 0 0 0 0.5]
-colorsmart              tcp.trackidx.color 230 230 230 0
+colorsmart_idx          tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+set tcp.trackidx.font   ?track_selected [5] [1]
 
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
@@ -515,7 +511,9 @@ set tcp.label h<24 w<375 [135 -1 210 23 0 0 1 0] [213 -1 132 23 0 0 1 0] \
 colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 
 set tcp.label.font ?track_selected [3] [0]
-set tcp.label.margin [3 3 2 1 0.5]
+set tcp.label.font showfx{0}==0 w<350 ?track_selected [5] [-1]
+set tcp.label.font showfx{0}==1 w<500 ?track_selected [5] [-1]
+set tcp.label.margin [2 3 2 1 0.5]
 
 set elx 345
 set elx tcp_send_pos==1 showfx{0}==1 - elx 82
@@ -572,7 +570,8 @@ set fld_m [0 0 0 0]
 
 set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set tcp.trackidx.margin [1861 0 0 0 0.5]
-colorsmart              tcp.trackidx.color 230 230 230 0
+colorsmart_idx          tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+set tcp.trackidx.font   ?track_selected [5] [1]
 
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
@@ -605,7 +604,9 @@ set tcp.label h<24 [79 -1 266 23 0 0 1 0] \
 colorsmart_label tcp.label.color 255 255 255 tcp_red_label
 
 set tcp.label.font ?track_selected [3] [0]
-set tcp.label.margin [5 3 4 1 0.5]
+set tcp.label.font showfx{0}==0 w<350 ?track_selected [5] [-1]
+set tcp.label.font showfx{0}==1 w<500 ?track_selected [5] [-1]
+set tcp.label.margin [2 3 2 1 0.5]
 
 set tcp.mute h<24 [345 -1 23 23 1 0 1 0] \
     h<47 [345 38 23 23 1 0.5 1 0.5] [345 13 23 23 1 0 1 0]
@@ -638,7 +639,8 @@ set fld_m [0 0 0 0]
 
 set master.tcp.trackidx         + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
 set master.tcp.trackidx.margin  [1861 0 0 0 0.5]
-colorsmart                      master.tcp.trackidx.color 230 230 230 0
+colorsmart_idx                  master.tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+set master.tcp.trackidx.font   ?track_selected [5] [1]
 
 set master.tcp.meter [399 2 tcp_meterw 96 1 0 1 1]
 set master.tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[220 220 220]
@@ -694,6 +696,8 @@ set master.tcp.label h<24 [elx -1 elw 23 0 0 1 0] \
 colorsmart_label master.tcp.label.color 255 255 255 tcp_red_label
 
 set master.tcp.label.font ?track_selected [3] [0]
+set master.tcp.label.font showfx{0}==0 w<350 ?track_selected [5] [-1]
+set master.tcp.label.font showfx{0}==1 w<500 ?track_selected [5] [-1]
 set master.tcp.label.margin [2 3 2 1 0.5]
 
 set elx 345
@@ -920,8 +924,8 @@ set mcp.extmixer.mode                    [0]
 
 set mcp.trackidx                         [31 351 20 18 0 1 0 1]
   set mcp.trackidx.margin                [0 3 0 3 0.5]
-  colorsmart                             mcp.trackidx.color 230 230 230 0
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [73 359 9 9 0 1 0 1] [71 350 11 18 0 1 0 1]
 
 ; ----------------------------------------------------
@@ -986,8 +990,8 @@ set mcp.fxin                            [56 238 23 21 0 1 0 1]
 set mcp.recinput                        folderstate=1 [6 322 76 18 0 1 0 1] folderstate<0 [1 322 76 18 0 1 0 1] folderdepth>0 [1 322 81 18 0 1 0 1] [6 322 71 18 0 1 0 1]
 
 set mcp.trackidx                        [31 12 20 18 0 0 0 0]
-  set mcp.trackidx.margin                [0 3 0 3 0.5]
-colorsmart_mcp_index                    mcp.trackidx.color 230 230 230
+  set mcp.trackidx.margin               [0 3 0 3 0.5]
+colorsmart_idx                          mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
 
 set mcp.folder                          folderstate<0 [71 10 11 18 0 0 0 0] [71 10 11 18 0 0 0 0]
 
@@ -1091,8 +1095,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [31 351 20 18 0 1 0 1]
   set mcp.trackidx.margin                [0 3 0 3 0.5]
-  colorsmart                             mcp.trackidx.color 230 230 230 0
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [73 359 9 9 0 1 0 1] [160 350 11 18 0 1 0 1]
 
 make_sidebar 80 5 45 4 26
@@ -1192,8 +1196,8 @@ set mcp.extmixer.mode                    [0]
 
 set mcp.trackidx                         [31 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [71 10 11 18 0 0 0 0] [160 10 11 18 0 0 0 0]
 
 make_sidebar2 80 5 34 4 28
@@ -1293,8 +1297,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [17 351 20 18 0 1 0 1]
   set mcp.trackidx.margin                [0 3 0 3 0.5]
-  colorsmart                             mcp.trackidx.color 230 230 230 0
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [44 359 9 9 0 1 0 1] [42 350 11 18 0 1 0 1]
 
   Layout "cb - Small (blue fader)" "mcp small/blue fader"
@@ -1392,8 +1396,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [42 10 11 18 0 0 0 0]
 
   Layout "Lcb - Small (label bottom + blue fader)" "mcp small lb/blue fader"
@@ -1491,8 +1495,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [17 351 20 18 0 1 0 1]
   set mcp.trackidx.margin                [0 3 0 3 0.5]
-  colorsmart                             mcp.trackidx.color 230 230 230 0
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [45 360 8 8 0 1 0 1] [113 350 11 18 0 1 0 1]
 
 make_sidebar 62 5 45 4 26
@@ -1606,8 +1610,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [113 10 11 18 0 0 0 0]
 
 make_sidebar2 62 5 34 4 28
@@ -1707,8 +1711,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [44 351 20 18 0 1 0 1]
   set mcp.trackidx.margin                [0 3 0 3 0.5]
-  colorsmart                             mcp.trackidx.color 230 230 230 0
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [97 350 11 18 0 1 0 1]
 
   Layout "eb - Large (blue fader)" "mcp large/blue fader"
@@ -1806,8 +1810,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [97 10 11 18 0 0 0 0]
 
   Layout "Leb - Large (label bottom + blue fader)" "mcp large lb/blue fader"
@@ -1905,8 +1909,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [44 351 20 18 0 1 0 1]
   set mcp.trackidx.margin                [0 3 0 3 0.5]
-  colorsmart                             mcp.trackidx.color 230 230 230 0
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [99 359 9 9 0 1 0 1] [198 350 11 18 0 1 0 1]
 
 make_sidebar 92 5 45 4 26
@@ -2006,8 +2010,8 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_mcp_index                   mcp.trackidx.color 230 230 230
-  set mcp.trackidx.font                  [1]
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [198 10 11 18 0 0 0 0]
 
 make_sidebar2 92 5 34 4 28
