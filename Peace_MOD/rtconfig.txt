@@ -55,9 +55,22 @@ define_parameter trackidx_colorsmart 'TCP Tinting Is On' 1 0 1
 
 ; Global stuff : here are some macros, to be used later
 
-macro colorsmart_idx element r g b tinted ; element name, desired rgb, go red on recarm? ('1' yes, '0' no)
-  set luma                     + + * 0.299 [trackcolor_r] * 0.587 [trackcolor_g] * 0.114 [trackcolor_b]
-  set element                  ?tinted ?trackcolor_valid luma{x}>140 [0 0 0] [255 255 255] [r g b] ?track_selected [255 255 255] [r g b]
+macro colorsmart_idx element r g b tinted mcp_lb ; element name, desired rgb, go red on recarm? ('1' yes, '0' no)
+  set luma                    + + * 0.299 [trackcolor_r] * 0.587 [trackcolor_g] * 0.114 [trackcolor_b]
+  set element                 ?mcp_lb \
+                                ?track_selected \
+                                  ?trackcolor_valid \
+                                    luma{x}>140 [0 0 0] \
+                                    [255 255 255] \
+                                  [r g b] \
+                                [r g b] \
+                              ?tinted \
+                                ?trackcolor_valid \
+                                  luma{x}>140 [0 0 0] \
+                                  [255 255 255] \
+                                [r g b] \
+                              ?track_selected [255 255 255] \
+                              [r g b]
 endmacro
 
 ; multiplying the trackcolor * 0.313 (the label background on the TCP) means a low luma
@@ -991,7 +1004,7 @@ set mcp.recinput                        folderstate=1 [6 322 76 18 0 1 0 1] fold
 
 set mcp.trackidx                        [31 12 20 18 0 0 0 0]
   set mcp.trackidx.margin               [0 3 0 3 0.5]
-colorsmart_idx                          mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  colorsmart_idx                        mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1 1
 
 set mcp.folder                          folderstate<0 [71 10 11 18 0 0 0 0] [71 10 11 18 0 0 0 0]
 
@@ -1196,7 +1209,7 @@ set mcp.extmixer.mode                    [0]
 
 set mcp.trackidx                         [31 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1 1
   set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [71 10 11 18 0 0 0 0] [160 10 11 18 0 0 0 0]
 
@@ -1396,7 +1409,7 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1 1
   set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [42 10 11 18 0 0 0 0]
 
@@ -1610,7 +1623,7 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [17 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1 1
   set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [42 10 11 18 0 0 0 0] [113 10 11 18 0 0 0 0]
 
@@ -1810,7 +1823,7 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1 1
   set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [97 10 11 18 0 0 0 0]
 
@@ -2010,7 +2023,7 @@ set mcp.extmixer.mode                    [0]
     set mcp.fxparm.margin                [2 0 4 0 0]
 set mcp.trackidx                         [44 13 20 18 0 0 0 0]
   set mcp.trackidx.margin                [0 0 0 3 0.5]
-  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
+  colorsmart_idx                         mcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1 1
   set mcp.trackidx.font                  ?track_selected [5] [1]
 set mcp.folder                           folderstate<0 [97 10 11 18 0 0 0 0] [198 10 11 18 0 0 0 0]
 
