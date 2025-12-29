@@ -153,10 +153,20 @@ set tcp.margin +:maxfolderdepth:1 [0 0 0 0] +:folderdepth:1 [0 0 0 0]
 set inv_m * [-1] tcp.margin
 set fld_m [0 0 0 0]
 
-set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
-set tcp.trackidx.margin [1861 0 0 0 0.5]
+; this is courtesy of PhelixK (thank you very much)
+; appears a few times in tcp definitions and includes some matching gfx mods
+set tcp.trackidx              + fld_m + inv_m [0 0 34 h]
+set idxmargins                / h 2
+set tcp.trackidx.margin       + [0 idxmargins 0 idxmargins 0.5] [0 -10 2 -10]
+
 colorsmart_idx          tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
 set tcp.trackidx.font   ?track_selected [5] [1]
+
+custom tcp.custom.idxbg
+set tcp.custom.idxbg          + tcp.trackidx [0 0 0 -1]
+set tcp.custom.idxbg.color    ?trackcolor_valid [0 0 0 0 trackcolor_r trackcolor_g trackcolor_b 255] \
+                              ?track_selected [0 0 0 0 150 150 150 200] [0 0 0 0 100 100 100 200] ; unassigned
+;-------------------------
 
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
@@ -491,10 +501,17 @@ set tcp.margin +:maxfolderdepth:1 [0 0 0 0] +:folderdepth:1 [0 0 0 0]
 set inv_m * [-1] tcp.margin
 set fld_m [0 0 0 0]
 
-set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
-set tcp.trackidx.margin [1861 0 0 0 0.5]
+set tcp.trackidx              + fld_m + inv_m [0 0 34 h]
+set idxmargins                / h 2
+set tcp.trackidx.margin       + [0 idxmargins 0 idxmargins 0.5] [0 -10 2 -10]
+
 colorsmart_idx          tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
 set tcp.trackidx.font   ?track_selected [5] [1]
+
+custom tcp.custom.idxbg
+set tcp.custom.idxbg          + tcp.trackidx [0 0 0 -1]
+set tcp.custom.idxbg.color    ?trackcolor_valid [0 0 0 0 trackcolor_r trackcolor_g trackcolor_b 255] \
+                              ?track_selected [0 0 0 0 150 150 150 200] [0 0 0 0 100 100 100 200] ; unassigned
 
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
@@ -581,10 +598,17 @@ set tcp.margin +:maxfolderdepth:1 [0 0 0 0] +:folderdepth:1 [0 0 0 0]
 set inv_m * [-1] tcp.margin
 set fld_m [0 0 0 0]
 
-set tcp.trackidx        + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
-set tcp.trackidx.margin [1861 0 0 0 0.5]
+set tcp.trackidx              + fld_m + inv_m [0 0 34 h]
+set idxmargins                / h 2
+set tcp.trackidx.margin       + [0 idxmargins 0 idxmargins 0.5] [0 -10 2 -10]
+
 colorsmart_idx          tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
 set tcp.trackidx.font   ?track_selected [5] [1]
+
+custom tcp.custom.idxbg
+set tcp.custom.idxbg          + tcp.trackidx [0 0 0 -1]
+set tcp.custom.idxbg.color    ?trackcolor_valid [0 0 0 0 trackcolor_r trackcolor_g trackcolor_b 255] \
+                              ?track_selected [0 0 0 0 150 150 150 200] [0 0 0 0 100 100 100 200] ; unassigned
 
 set scalef * 1.05 / h 55.
 set scalef scalef{0}>1 1. scalef{0}<0.45 0.45
@@ -650,10 +674,18 @@ set master.tcp.margin +:maxfolderdepth:1 [0 0 0 0] +:folderdepth:1 [0 0 0 0]
 set inv_m * [-1] master.tcp.margin
 set fld_m [0 0 0 0]
 
-set master.tcp.trackidx         + fld_m + inv_m [-1964 0 2100 100 0 0 0 1]
-set master.tcp.trackidx.margin  [1861 0 0 0 0.5]
+set master.tcp.trackidx         + fld_m + inv_m [0 0 34 h]
+set idxmargins                  / h 2
+set master.tcp.trackidx.margin  + [0 idxmargins 0 idxmargins 0.5] [0 -10 2 -10]
+
 colorsmart_idx                  master.tcp.trackidx.color 230 230 230 trackidx_colorsmart{0}==1
-set master.tcp.trackidx.font   ?track_selected [5] [1]
+set master.tcp.trackidx.font    ?track_selected [5] [1]
+
+; this is unnecessary for the master track
+; custom master.tcp.custom.idxbg
+; set master.tcp.custom.idxbg          + master.tcp.trackidx [0 0 0 -1]
+; set master.tcp.custom.idxbg.color    ?trackcolor_valid [0 0 0 0 trackcolor_r trackcolor_g trackcolor_b 255] \
+;                                      ?track_selected [0 0 0 0 150 150 150 200] [0 0 0 0 100 100 100 200] ; unassigned
 
 set master.tcp.meter [399 2 tcp_meterw 96 1 0 1 1]
 set master.tcp.meter.readout.color [127 153 0 255 48 48 48 255] ;[220 220 220]
